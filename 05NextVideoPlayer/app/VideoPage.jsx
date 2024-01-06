@@ -1,13 +1,9 @@
 'use client'
 import { MediaPlayer, MediaProvider } from '@vidstack/react';
-import {
-    defaultLayoutIcons,
-    DefaultVideoLayout,
-  } from '@vidstack/react/player/layouts/default';
-  import '@vidstack/react/player/styles/default/theme.css';
-  import '@vidstack/react/player/styles/default/layouts/video.css';
+import { defaultLayoutIcons, DefaultVideoLayout } from '@vidstack/react/player/layouts/default';
 
-// import HeroVid from '../public/Intro.mp4'
+import '@vidstack/react/player/styles/default/theme.css';
+import '@vidstack/react/player/styles/default/layouts/video.css';
 
 function VideoPage() {
     return (
