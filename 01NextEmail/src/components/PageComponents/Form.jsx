@@ -47,7 +47,7 @@ export default function FormPage() {
     return (
         <>
             <section className='md:flex md:flex-row flex flex-col justify-center gap-6 mt-5 p-4'>
-                <main className='md:w-1/3'>
+                <main className='md:w-[50%]'>
                     <form onSubmit={handleSubmit(submitData)} className="space-y-8 w-full">
                         <div className='flex flex-col gap-2'>
                             <label htmlFor="fullName" className="label">
@@ -88,7 +88,7 @@ export default function FormPage() {
                         <button disabled={isSubmitting} type='submit' className='px-10 py-3 flex justify-center w-full bg-neutral-800/90 font-semibold rounded-xl  hover:bg-gradient-to-r from-twOg-100 to-twOg-200 hover:transition-background-color'>{isSubmitting ? 'Submitting...' : 'Submit'}</button>
                     </form>
                 </main>
-                <div className='md:w-1/3 p-6 border shadow-xl rounded-xl flex flex-col items-center justify-center bg-slate-800'>
+                <div className='md:w-[50%] p-6 border shadow-xl rounded-xl flex flex-col items-center justify-center bg-slate-800'>
                     <h2 className='text-2xl font-bold underline mb-8'> Form Data </h2>
                     <pre>{JSON.stringify(formData, null, 2)}</pre>
                 </div>
