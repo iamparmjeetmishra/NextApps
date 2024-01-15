@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .input {
+      @apply border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  bg-transparent border-white/10  text-white autofill:bg-yellow-200 autofill:text-gray-600
+      }
+      
+      .label {
+      @apply block mb-2 text-sm font-medium text-white
+      }
+      
+  }
