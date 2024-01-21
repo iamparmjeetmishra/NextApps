@@ -7,6 +7,7 @@ import OtpInput from './OtpInput'
 export default function Phone() {
     const [phoneNumber, setPhoneNumber] = useState("");
     const [showOtpInput, setShowOtpInput] = useState(false)
+    const [showOutput, setShowOutput] = useState(null)
 
     const handlePhoneNumber = (e) => {
         setPhoneNumber(e.target.value)
@@ -17,7 +18,7 @@ export default function Phone() {
 
         // Phone Validations
         const regex = /[^0-9]/g;
-        if (phoneNumber.length < 2 || regex.test(phoneNumber)) {
+        if (phoneNumber.length < 10 || regex.test(phoneNumber)) {
             return
         }
         setShowOtpInput(true)
@@ -26,6 +27,7 @@ export default function Phone() {
 
     const onOtpSubmit = (otp) => {
         console.log('Login', otp)
+        setShowOutput(otp)
     }
 
     return (
@@ -37,14 +39,16 @@ export default function Phone() {
                         value={phoneNumber}
                         onChange={handlePhoneNumber}
                         placeholder="Enter your Phone"
-                        className="text-black "
+                        className="text-black p-2 rounded me-2 "
                     />
-                    <button type="submit">submit</button>
+                    <button className="p-2 bg-slate-900 hover:bg-cyan-950 rounded"  type="submit">Submit</button>
+                    <p>Enter your 10 digit Mobile number.</p>
                 </form>
                 : (
-                    <div>
-                        <p>Enter your OTP: {phoneNumber} </p>
+                    <div className="text-center">
+                        <p className="mb-4 text-center">Enter your OTP: {phoneNumber} </p>
                         <OtpInput length={4} onOtpSubmit={onOtpSubmit} />
+                        {showOutput && <div className="mt-4 text-center">This is your Combined OTP: {showOutput }</div>}
                     </div>
                 )
             }

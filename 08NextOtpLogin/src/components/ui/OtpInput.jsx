@@ -38,8 +38,7 @@ export default function OtpInput({ length = '4', onOtpSubmit = () => { } }) {
         if (index > 0 && !otp[index - 1]) {
             inputRefs.current[otp.indexOf('')].focus()
         }
-
-    }
+    };
     const handleKeyDown = (index, e) => {
         if (e.key === 'Backspace' &&
             !otp[index] &&
@@ -62,9 +61,9 @@ export default function OtpInput({ length = '4', onOtpSubmit = () => { } }) {
                         type="text"
                         value={value}
                         onChange={(e) => handleChange(index, e)}
-                        onClick={handleClick(index)}
+                        onClick={() => handleClick(index)}
                         onKeyDown={(e) => handleKeyDown(index, e)}
-                        className="h-6 w-6 ms-2 text-black p-2 text-center "
+                        className="h-10 w-10 rounded ms-2 text-black p-2 text-center "
                     />
                 })
             }
