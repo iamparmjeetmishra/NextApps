@@ -1,9 +1,9 @@
-import Image from 'next/image'
+import Todo from '@/components/ui/Todo'
 
 export default function Home() {
   return (
     <>
-    <h2>Hello</h2>
+      <Todo />
     </>
   )
 }
