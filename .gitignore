@@ -5,6 +5,9 @@ my-app.7z
 
 ### dotenv ###
 .env
+*/.env
+*/.env/
+*.env
 
 ### NextJS ###
 # dependencies
