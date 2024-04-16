@@ -7,7 +7,9 @@ my-app.7z
 .env
 */.env
 */.env/
-*.env
+*.env*
+.env*.local
+
 
 ### NextJS ###
 # dependencies
