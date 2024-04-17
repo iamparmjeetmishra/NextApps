@@ -1,6 +1,7 @@
 import Navbar from './Navbar'
 import HeroSection from './HeroSection'
 import FeaturedSection from './FeaturedSection'
+import { WhyChooseUs } from './WhyChooseUs'
 
 import { Spotlight } from './ui/Spotlight'
 import { MovingBorder, Button } from './ui/moving-border'
@@ -12,6 +13,7 @@ export  {
     Navbar,
     HeroSection,
     FeaturedSection,
+    WhyChooseUs,
 
     Spotlight,
     MovingBorder,
