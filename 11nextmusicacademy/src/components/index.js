@@ -5,6 +5,7 @@ import { WhyChooseUs } from './WhyChooseUs'
 import { TestimonialCards } from './TestimonialCards'
 import UpcomingWebinars from './UpcomingWebinars'
 import Instructors from './Instructors'
+import Footer from './Footer'
 
 
 import { Spotlight } from './ui/Spotlight'
@@ -15,6 +16,7 @@ import { InfiniteMovingCards } from './ui/infinite-moving-cards'
 import { HoverEffect } from './ui/card-hover-effect'
 import { AnimatedTooltip } from './ui/animated-tooltip'
 import { WavyBackground } from './ui/wavy-background'
+import { CardBody, CardContainer, CardItem } from './ui/3d-card'
 
 
 export  {
@@ -25,6 +27,7 @@ export  {
     TestimonialCards,
     UpcomingWebinars,
     Instructors,
+    Footer,
 
     Spotlight,
     MovingBorder,
@@ -35,4 +38,7 @@ export  {
     HoverEffect,
     AnimatedTooltip,
     WavyBackground,
+    CardBody,
+    CardContainer,
+    CardItem,
 }
