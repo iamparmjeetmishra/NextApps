@@ -1,4 +1,4 @@
-import { HeroSection, FeaturedSection, WhyChooseUs, TestimonialCards, UpcomingWebinars } from "@/components";
+import { HeroSection, FeaturedSection, WhyChooseUs, TestimonialCards, UpcomingWebinars, Instructors } from "@/components";
 
 export default function Home() {
   return (
@@ -8,6 +8,7 @@ export default function Home() {
       <WhyChooseUs />
       <TestimonialCards />
       <UpcomingWebinars />
+      <Instructors />
     </main>
   );
 }

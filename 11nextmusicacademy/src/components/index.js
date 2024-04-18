@@ -4,6 +4,8 @@ import FeaturedSection from './FeaturedSection'
 import { WhyChooseUs } from './WhyChooseUs'
 import { TestimonialCards } from './TestimonialCards'
 import UpcomingWebinars from './UpcomingWebinars'
+import Instructors from './Instructors'
+
 
 import { Spotlight } from './ui/Spotlight'
 import { MovingBorder, Button } from './ui/moving-border'
@@ -11,6 +13,8 @@ import { BackgroundGradient } from './ui/background-gradient'
 import { StickyScroll } from './ui/sticky-scroll-reveal'
 import { InfiniteMovingCards } from './ui/infinite-moving-cards'
 import { HoverEffect } from './ui/card-hover-effect'
+import { AnimatedTooltip } from './ui/animated-tooltip'
+import { WavyBackground } from './ui/wavy-background'
 
 
 export  {
@@ -20,6 +24,7 @@ export  {
     WhyChooseUs,
     TestimonialCards,
     UpcomingWebinars,
+    Instructors,
 
     Spotlight,
     MovingBorder,
@@ -27,5 +32,7 @@ export  {
     BackgroundGradient,
     StickyScroll,
     InfiniteMovingCards,
-    HoverEffect
+    HoverEffect,
+    AnimatedTooltip,
+    WavyBackground,
 }
