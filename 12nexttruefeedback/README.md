@@ -4,7 +4,8 @@
 - [x] Schema and User Model setup
 - [x] DB Connect Setup-Not Connected though
 - [] Shadcn Implementation
-- [] NextAuth Implementation
+- [x] NextAuth Implementation
+- [] SignIn and Sign Out Page Design
 - [] Pages
 - [] ChatGPT Integration
 ## So far
