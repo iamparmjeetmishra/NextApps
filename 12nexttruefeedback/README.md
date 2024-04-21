@@ -5,6 +5,7 @@
 - [x] DB Connect Setup-Not Connected though
 - [] Shadcn Implementation
 - [x] NextAuth Implementation
+- [] OTP Implementation
 - [] SignIn and Sign Out Page Design
 - [] Pages
 - [] ChatGPT Integration
