@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     //     }, {status: 400}
     //     )
     // }
-    console.log(`Received request with method: ${request.method}`)
+    // console.log(`Received request with method: ${request.method}`)
 
     await dbConnect()
 
