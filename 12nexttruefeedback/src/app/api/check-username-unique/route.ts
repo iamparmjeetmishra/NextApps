@@ -10,6 +10,17 @@ const UsernameQuerySchema = z.object({
 // Get Method to check username
 
 export async function GET(request: Request) {
+
+    // Not required in the lastest Version of Next
+    // if (request.method !== 'GET') {
+    //     return Response.json({
+    //         success: false,
+    //         message: 'Other than GET method not allowed'
+    //     }, {status: 400}
+    //     )
+    // }
+    console.log(`Received request with method: ${request.method}`)
+
     await dbConnect()
 
     // localhost:3000/api/cuu?username=parm?email=info@gmail.com
