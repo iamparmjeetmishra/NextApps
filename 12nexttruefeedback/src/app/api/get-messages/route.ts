@@ -47,7 +47,11 @@ export async function GET(request: Request) {
         }, {status: 200})
 
     } catch (error) {
-        
+        console.log('Unable to get messages', error)
+        return Response.json({
+            success: false,
+            message: 'Unable to get messages'
+        }, { status: 401})
     }
 
 }
