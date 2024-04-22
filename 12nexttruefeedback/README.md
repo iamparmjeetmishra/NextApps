@@ -6,7 +6,7 @@
 - [] Shadcn Implementation
 - [x] NextAuth Implementation
 - [] OTP Implementation
-- [] Unique Username check
+- [x] Unique Username check
 - [] SignIn and Sign Out Page Design
 - [] Pages
 - [] ChatGPT Integration
