@@ -12,6 +12,10 @@
     "@types/bcryptjs": "^2.4.6",
     "ai": "^3.0.24",
     "bcryptjs": "^2.4.3",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "init": "^0.1.2",
+    "lucide-react": "^0.372.0",
     "mongoose": "^8.3.2",
     "next": "14.2.2",
     "next-auth": "^4.24.7",
@@ -20,6 +24,9 @@
     "react-dom": "^18",
     "react-email": "^2.1.1",
     "resend": "^3.2.0",
+    "shadcn-ui": "^0.8.0",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.5"
   },
   "devDependencies": {
