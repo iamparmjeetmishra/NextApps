@@ -1,7 +1,11 @@
+import MessageCard from "@/components/MessageCard"
 
 const Page = () => {
   return (
-    <div>page</div>
+    <div>
+      <MessageCard />
+      page
+    </div>
   )
 }
 
