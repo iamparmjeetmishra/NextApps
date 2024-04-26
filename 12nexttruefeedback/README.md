@@ -5,9 +5,12 @@
 - [x] DB Connect Setup-Not Connected though
 - [] Shadcn Implementation
 - [x] NextAuth Implementation
-- [] OTP Implementation
+- [x] OTP Implementation
 - [x] Unique Username check
-- [] SignIn and Sign Out Page Design
+- [x] SignIn and Sign Out API
+- [x] Verify Code Api + Page Setup
+- [] Dashboard Design 
+- [x] SignIn and Sign Out Page Design
 - [] Pages
 - [] ChatGPT Integration
 ## So far
