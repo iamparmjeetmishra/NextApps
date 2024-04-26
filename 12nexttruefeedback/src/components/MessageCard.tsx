@@ -31,7 +31,7 @@ type MessageCardProps = {
    onMessageDelete: (messageId: string) => void
 }
 
-const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
+export default function MessageCard({message, onMessageDelete}: MessageCardProps) {
 
    const { toast } = useToast()
    
@@ -88,4 +88,4 @@ const MessageCard = ({message, onMessageDelete}: MessageCardProps) => {
 	);
 };
 
-export default MessageCard;
+// export default MessageCard;
