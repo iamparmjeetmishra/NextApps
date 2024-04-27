@@ -8,35 +8,36 @@ connect();
 // We have to clean token
 
 export async function POST(request: NextRequest) {
-   try {
-      
-      // extract data from token
-      const userId = await getDataFromToken(request)
-      const user = await User.findOne(
-         { _id: userId }
-      ).select('-password')
+	try {
+		// extract data from token
+		const userId = await getDataFromToken(request);
+      console.log("hERE ");
+		const user = await User.findOne({ _id: userId }).select(
+			"-password"
+		);
 
-      // check if there is no user
-      if (!user) {
-         return NextResponse.json(
-            {
-               success: false,
-               message: 'User not found'
-            }
-         )
-      }
-      return NextResponse.json({
-         success: true,
-         message: 'User Found',
-         data: user
-      })
-
+		// check if there is no user
+		// if (!user) {
+		//    return NextResponse.json(
+		//       {
+		//          success: false,
+		//          message: 'User not found'
+		//       }
+		//    )
+		// }
+		console.log("Before return user");
+		return NextResponse.json({
+			success: true,
+			message: "User Found",
+			data: user,
+		});
 	} catch (error: any) {
+		// console.log(error)
 		return NextResponse.json(
 			{
 				error: error.message,
 			},
-			{ status: 500 }
+			{ status: 400 }
 		);
 	}
 }
