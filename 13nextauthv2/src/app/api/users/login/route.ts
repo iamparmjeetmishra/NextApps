@@ -10,6 +10,7 @@ export async function POST(request: NextRequest) {
 	try {
 		const reqBody = await request.json();
 		const { email, password } = reqBody;
+		console.log(reqBody)
 
 		const user = await User.findOne({ email });
 
@@ -33,6 +34,8 @@ export async function POST(request: NextRequest) {
 			);
 		}
 
+		// console.log('before jwt')
+
 		// jwt token
 
 		const tokenData = {
@@ -41,7 +44,7 @@ export async function POST(request: NextRequest) {
 			email: user.email,
 		};
 
-		const token = jwt.sign(
+		const token = await jwt.sign(
 			tokenData,
 			process.env.TOKEN_SECRET!,
 			{ expiresIn: "1d" }
@@ -56,12 +59,15 @@ export async function POST(request: NextRequest) {
          "token",
          token,
          {httpOnly: true}
-      )
+		)
+		return response;
 
 	} catch (error: any) {
+		console.log(error)
 		return NextResponse.json(
 			{
 				error: error.message,
+				message: 'error 123'
 			},
 			{ status: 500 }
 		);
