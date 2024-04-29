@@ -15,7 +15,7 @@ export default function Profile() {
 		try {
 			const response = await axios.post('/api/users/me')
 			console.log(response.data)
-			setData(response.data.data)
+			setData(response.data.data._id)
 		} catch (error) {
 			console.log('error get profile data', error)
 		}
