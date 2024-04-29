@@ -1,12 +1,11 @@
 'use client'
-
 import axios from "axios"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import toast, { Toaster }  from "react-hot-toast"
 
-export default function LoginPage() {
+export default function Page() {
   const router = useRouter()
 
   const [user, setUser] = useState({
