@@ -3,7 +3,7 @@ import MessageCard from "@/components/MessageCard"
 const Page = () => {
   return (
     <div>
-      <MessageCard />
+      {/* <MessageCard /> */}
       page
     </div>
   )
