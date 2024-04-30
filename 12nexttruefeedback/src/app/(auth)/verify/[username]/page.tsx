@@ -44,7 +44,7 @@ const VerifyAccount = () => {
 
 	const onSubmit = async (data: z.infer<typeof verifySchema>) => {
 		try {
-			const response = await axios.post(`/api/verify-code`,	{
+			const response = await axios.post<ApiResponse>(`/api/verify-code`,	{
 					username: params.username,
 					code: data.code,
 				}
@@ -107,23 +107,7 @@ const VerifyAccount = () => {
 											placeholder="Enter your code"
 											{...field}
 										/> */}
-										<InputOTP
-											maxLength={6}
-											pattern={REGEXP_ONLY_DIGITS}
-											onChange={(e) => setOtp(e)}
-										>
-											<InputOTPGroup>
-												<InputOTPSlot index={0} />
-												<InputOTPSlot index={1} />
-												<InputOTPSlot index={2} />
-											</InputOTPGroup>
-											<InputOTPSeparator />
-											<InputOTPGroup>
-												<InputOTPSlot index={3} />
-												<InputOTPSlot index={4} />
-												<InputOTPSlot index={5} />
-											</InputOTPGroup>
-										</InputOTP>
+										<Input {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>

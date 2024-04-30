@@ -4,7 +4,7 @@ import UserModel from "@/model/User";
 // import { usernameValidation } from "@/schemas/signUpSchema";
 
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
     await dbConnect()
 
     try {
