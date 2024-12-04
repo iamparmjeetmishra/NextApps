@@ -67,11 +67,12 @@ export default function RootLayout({
           <p className="max-w-xl text-center text-lg text-slate-700">Hybrid search engine that enhances search accuracy by querying semantically related results.</p>
           <div className="mx-auto mt-16 w-full max-w-2xl flex flex-col">
             <SearchBar />
+        {children}
           </div>
           </div>
       </div>
 		</div>
-        {children}
+        dfdf
       </body>
     </html>
   );
