@@ -1,3 +1,4 @@
+// 'use client'
 /* eslint-disable node/no-process-env */
 
 import { config } from "dotenv";
@@ -12,11 +13,11 @@ expand(config({
   ),
 }));
 
+console.log('IaminDB')
 
 const EnvSchema = z.object({
   NODE_ENV: z.string().default("development"),
   PORT: z.coerce.number().default(9999),
-  LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"]),
   DATABASE_URL: z.string().url(),
   DATABASE_AUTH_TOKEN: z.string().optional(),
 }).superRefine((input, ctx) => {
@@ -31,6 +32,8 @@ const EnvSchema = z.object({
   }
 });
 
+// console.log(EnvSchema)
+
 export type env = z.infer<typeof EnvSchema>;
 
 // eslint-disable-next-line ts/no-redeclare
@@ -44,12 +47,13 @@ const env = (() => {
     console.error("Error details:");
     console.error(
       error.errors
-        .map((err) => `${err.path.join(".")}: ${err.message}`)
-        .join("\n"),
+      .map((err) => `${err.path.join(".")}: ${err.message}`)
+      .join("\n"),
     );
     process.exit(1);
   }
-  return data!;
+  return data;
 })();
+
 
 export default env!;
