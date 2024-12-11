@@ -5,7 +5,7 @@ import { zValidator } from "@hono/zod-validator";
 const expenseSchema = z.object({
   id: z.number().int().positive(),
   title: z.string().nonempty().min(3).max(50),
-  amount: z.number().int().positive(),
+  amount: z.number().positive(),
 })
 
 type ExpenseType = z.infer<typeof expenseSchema>
@@ -17,7 +17,7 @@ const fakeExpenses: ExpenseType[] = [
   {
     id: 1,
     title: "Coffee",
-    amount: 3.5,
+    amount: 35,
   },
   {
     id: 2,
@@ -37,7 +37,7 @@ export const expensesRoute = new Hono()
   })
   .get("/total-spent", async (c) => {
     const totalExpense = await fakeExpenses.reduce((acc, expense) => acc + expense.amount, 0)
-		return await c.json(totalExpense);
+		return await c.json({totalExpense});
 	})
   .post("/", zValidator("json", createExpenseSchema), async (c) => {
     const expense = await c.req.valid("json");

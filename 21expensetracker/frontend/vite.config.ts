@@ -8,12 +8,14 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      "@server": path.resolve(__dirname, "../backend/server")
     },
   },
   server: {
     proxy: {
       "/api": {
-        target: "https://expensetrackerv1be.parmjeetmishra.com",
+        // target: "https://expensetrackerv1be.parmjeetmishra.com",
+        target: "http://localhost:8787",
         changeOrigin: true,
       }
     }
