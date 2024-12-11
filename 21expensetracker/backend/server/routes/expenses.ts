@@ -34,6 +34,10 @@ const fakeExpenses: ExpenseType[] = [
 export const expensesRoute = new Hono()
 	.get("/", async (c) => {
 		return await c.json({ expenses: fakeExpenses });
+  })
+  .get("/total-spent", async (c) => {
+    const totalExpense = await fakeExpenses.reduce((acc, expense) => acc + expense.amount, 0)
+		return await c.json(totalExpense);
 	})
   .post("/", zValidator("json", createExpenseSchema), async (c) => {
     const expense = await c.req.valid("json");
