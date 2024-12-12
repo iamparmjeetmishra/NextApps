@@ -1,3 +1,10 @@
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/')({
+  component: Index,
+})
+
+
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -21,7 +28,7 @@ async function getTotalSpent() {
 	return data.totalExpense;
 }
 
-export default function App() {
+export default function Index() {
 	const { isPending, error, data } = useQuery({
 		queryKey: ["total-spent"],
 		queryFn: getTotalSpent,
