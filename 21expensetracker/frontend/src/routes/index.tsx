@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/card";
 
 import { useQuery } from "@tanstack/react-query";
-import getTotalSpent from '@/lib/actions';
+import {getTotalSpent} from '@/lib/actions';
 
 
 
