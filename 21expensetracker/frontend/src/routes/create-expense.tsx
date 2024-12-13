@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 import { useForm } from "@tanstack/react-form";
 // import type { FieldApi } from "@tanstack/react-form";
@@ -13,6 +13,7 @@ export const Route = createFileRoute("/create-expense")({
 });
 
 function CreateExpenseComponent() {
+	const navigate = useNavigate();
 	const form = useForm({
 		defaultValues: {
 			title: "",
@@ -23,6 +24,7 @@ function CreateExpenseComponent() {
       // await api.expenses.$post({json: value})
       await createExpense({value})
 			console.log(value);
+			navigate({ to: "/expenses" });
 		},
 	});
 
