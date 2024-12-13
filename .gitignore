@@ -65,3 +65,9 @@ thumb
 sketch
 
 # End of https://www.toptal.com/developers/gitignore/api/react,nextjs,dotenv
+
+**/wrangler.toml
+/*/wrangler.toml
+21expensetracker/backend/wrangler.toml
+
+**/wrangler.toml
