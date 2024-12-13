@@ -15,16 +15,13 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 
-import { useQuery } from "@tanstack/react-query";
-import {getTotalSpent} from '@/lib/actions';
+
+import { useTotalExpenses } from '@/lib/hooks';
 
 
 
 export default function Index() {
-	const { isPending, error, data } = useQuery({
-		queryKey: ["total-spent"],
-		queryFn: getTotalSpent,
-	});
+	const {isPending, data, error} = useTotalExpenses()
 
 	if (isPending) return "loading...";
 
