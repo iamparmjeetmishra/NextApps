@@ -6,7 +6,7 @@ export  async function getTotalSpent() {
 		throw new Error("Failed to fetch data");
 	}
 	const data = await res.json();
-	console.log(data.totalExpense);
+	// console.log(data.totalExpense);
 	// console.log('data', data)
 	return data.totalExpense;
 }
