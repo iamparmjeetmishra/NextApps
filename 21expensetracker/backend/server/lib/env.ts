@@ -1,15 +1,5 @@
 
-import { config } from "dotenv";
-import { expand } from "dotenv-expand";
-import path from "node:path";
 import { z } from "zod";
-
-expand(config({
-  path: path.resolve(
-    process.cwd(),
-    process.env.NODE_ENV === "test" ? ".env.test" : ".env",
-  ),
-}));
 
 
 const EnvSchema = z.object({
@@ -37,25 +27,21 @@ const EnvSchema = z.object({
   }
 });
 
-export type env = z.infer<typeof EnvSchema>;
-
+export type Env = z.infer<typeof EnvSchema>;
 
 // const { data: env, error } = EnvSchema.safeParse(process.env);
 
 // Singleton for validated environment variables
-const env = (() => {
-  const { data, error } = EnvSchema.safeParse(process.env);
+export const getEnv = (bindings: Record<string, unknown>): Env => {
+  const { data, error } = EnvSchema.safeParse(bindings);
   if (error) {
     console.error("Environment variable validation failed!");
-    console.error("Error details:");
     console.error(
       error.errors
         .map((err) => `${err.path.join(".")}: ${err.message}`)
         .join("\n"),
     );
-    process.exit(1);
+    throw new Error("Invalid environment configuration");
   }
-  return data!;
-})();
-
-export default env!;
+  return data;
+};
