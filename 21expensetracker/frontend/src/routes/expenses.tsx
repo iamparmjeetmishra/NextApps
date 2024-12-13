@@ -1,5 +1,3 @@
-
-import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/expenses")({
@@ -17,15 +15,12 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { getAllExpenses } from "@/lib/actions";
-
-
+import { useAllExpenses, useTotalExpenses } from "@/lib/hooks";
 
 function Expenses() {
-	const { isPending, data, error } = useQuery({
-		queryKey: ["get-all-expenses"],
-		queryFn: getAllExpenses,
-	});
+	const {data, error ,isPending } =useAllExpenses()
+	
+	const { data:fetchedTotalSpent } = useTotalExpenses()
 
 	if (error) return "An error has occurred: " + error.message;
 
@@ -65,7 +60,7 @@ function Expenses() {
 					<TableRow>
 						<TableCell>Total</TableCell>
 						<TableCell></TableCell>
-						<TableCell>00</TableCell>
+						<TableCell>{ fetchedTotalSpent }</TableCell>
 					</TableRow>
 				</TableFooter>
 			</Table>
