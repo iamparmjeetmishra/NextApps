@@ -2,11 +2,16 @@ import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { expensesRoute } from "./routes/expenses";
 import { authRoute } from "./routes/auth";
+import { parseEnv } from "./lib/env";
 // import { serveStatic } from "hono/cloudflare-workers";
 
 const app = new Hono()
 
 app.use("*", logger())
+app.use((c, next) => {
+  parseEnv(c.env)
+  return next()
+})
 
 app.get('/health', (c) => {
   return c.json({"message": "Health ok"})

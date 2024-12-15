@@ -1,4 +1,3 @@
-
 import { z } from "zod";
 
 
@@ -27,21 +26,19 @@ const EnvSchema = z.object({
   }
 });
 
-export type Env = z.infer<typeof EnvSchema>;
+export type EnvType = z.infer<typeof EnvSchema>;
 
 // const { data: env, error } = EnvSchema.safeParse(process.env);
 
 // Singleton for validated environment variables
-export const getEnv = (bindings: Record<string, unknown>): Env => {
-  const { data, error } = EnvSchema.safeParse(bindings);
+
+export function parseEnv(data: any) {
+  const { data: env, error } = EnvSchema.safeParse(data);
+
   if (error) {
-    console.error("Environment variable validation failed!");
-    console.error(
-      error.errors
-        .map((err) => `${err.path.join(".")}: ${err.message}`)
-        .join("\n"),
-    );
-    throw new Error("Invalid environment configuration");
+    const errorMessage = `❌ Invalid env - ${Object.entries(error.flatten().fieldErrors).map(([key, errors]) => `${key}: ${errors.join(",")}`).join(" | ")}`;
+    throw new Error(errorMessage);
   }
-  return data;
-};
+
+  return env;
+}
