@@ -17,6 +17,12 @@ const EnvSchema = z.object({
   LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"]),
   DATABASE_URL: z.string().url(),
   DATABASE_AUTH_TOKEN: z.string().optional(),
+  KINDE_CLIENT_ID: z.string(),
+  KINDE_CLIENT_SECRET: z.string(),
+  KINDE_ISSUER_URL: z.string().url(),
+  KINDE_SITE_URL: z.string().url(),
+  KINDE_POST_LOGOUT_REDIRECT_URL: z.string().url(),
+  KINDE_POST_LOGIN_REDIRECT_URL: z.string().url(),
 }).superRefine((input, ctx) => {
   if (input.NODE_ENV === "production" && !input.DATABASE_AUTH_TOKEN) {
     ctx.addIssue({

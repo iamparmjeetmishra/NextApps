@@ -1,6 +1,5 @@
-import { check, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
-import { number } from "zod";
 
 export const expenses = sqliteTable(
   "expenses",
