@@ -35,3 +35,4 @@ dist
 wrangler.toml
 .dev.vars
 .wrangler
+.env
