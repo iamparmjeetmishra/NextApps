@@ -6,6 +6,25 @@ import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
 import { insertExpensesSchema, patchExpensesSchema, selectExpensesSchema, totalSpentSchema } from "@/db/schema";
 import { notFoundSchema } from "@/lib/constants";
 
+const UserSchema = z.object({
+  email: z.string().email(),
+});
+
+const LoginRequestSchema = z.object({
+  username: z.string(),
+});
+
+const RegisterRequestSchema = z.object({
+  username: z.string(),
+  email: z.string().email(),
+  password: z.string(),
+});
+
+const TokenSchema = z.object({
+  accessToken: z.string(),
+  refreshToken: z.string(),
+});
+
 const tags = ["Auth"];
 
 export const me = createRoute({
@@ -14,8 +33,12 @@ export const me = createRoute({
   method: "get",
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(selectExpensesSchema),
+      z.array(UserSchema),
       "Authenticated user",
+    ),
+    [HttpStatusCodes.UNAUTHORIZED]: jsonContent(
+      z.array(UserSchema),
+      "Unauthorized user",
     ),
   },
 });
@@ -26,15 +49,11 @@ export const login = createRoute({
   method: "get",
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(totalSpentSchema),
-      "The List of all total expenses",
+      z.array(LoginRequestSchema),
+      "Access and refresh tokens",
     ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(
-      notFoundSchema,
-      "expenses not found",
-    ),
-    [HttpStatusCodes.NO_CONTENT]: {
-      description: "The expenses has been deleted",
+    [HttpStatusCodes.UNAUTHORIZED]: {
+      description: "Invalid credentials",
     },
   },
 });
@@ -43,16 +62,13 @@ export const register = createRoute({
   path: "/auth/register",
   tags,
   method: "get",
-  request: {
-    body: jsonContentRequired(insertExpensesSchema, "The expenses to create"),
-  },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      selectExpensesSchema,
-      "The created expenses",
+      RegisterRequestSchema,
+      "User Register successfully",
     ),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(insertExpensesSchema),
+      createErrorSchema(RegisterRequestSchema),
       "The validation error",
     ),
   },
@@ -62,22 +78,14 @@ export const callback = createRoute({
   path: "/auth/callback",
   tags,
   method: "get",
-  request: {
-    params: IdParamsSchema,
-  },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      selectExpensesSchema,
-      "The Requested expenses",
+      TokenSchema,
+      "Token Reaceived successfully",
     ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(
-      notFoundSchema,
-      "expenses not found",
-    ),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(insertExpensesSchema),
-      "Invalid id error",
-    ),
+    [HttpStatusCodes.UNAUTHORIZED]: {
+      description: "Invalid tokens",
+    },
   },
 });
 
@@ -85,27 +93,13 @@ export const logout = createRoute({
   path: "/auth/logout",
   tags,
   method: "get",
-  request: {
-    params: IdParamsSchema,
-    body: jsonContentRequired(
-      patchExpensesSchema,
-      "The expenses to update",
-    ),
-  },
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      selectExpensesSchema,
-      "The Updated expenses",
-    ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(
-      notFoundSchema,
-      "expenses not found",
-    ),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(patchExpensesSchema)
-        .or(createErrorSchema(IdParamsSchema)),
-      "The validation error(s)",
-    ),
+    [HttpStatusCodes.NO_CONTENT]: {
+      description: "User logged out successfully",
+    },
+    [HttpStatusCodes.UNAUTHORIZED]: {
+      description: "User not authenticated",
+    },
   },
 });
 
