@@ -1,4 +1,4 @@
-/* eslint-disable node/no-process-env */
+
 import { config } from "dotenv";
 import { expand } from "dotenv-expand";
 import path from "node:path";
@@ -11,10 +11,12 @@ expand(config({
   ),
 }));
 
+
 const EnvSchema = z.object({
   NODE_ENV: z.string().default("development"),
   PORT: z.coerce.number().default(9999),
   LOG_LEVEL: z.enum(["fatal", "error", "warn", "info", "debug", "trace", "silent"]),
+  BE_URL: z.string().url(),
   DATABASE_URL: z.string().url(),
   DATABASE_AUTH_TOKEN: z.string().optional(),
   KINDE_CLIENT_ID: z.string(),
@@ -35,15 +37,25 @@ const EnvSchema = z.object({
   }
 });
 
-export type Environment = z.infer<typeof EnvSchema>;
+export type env = z.infer<typeof EnvSchema>;
 
-export function parseEnv(data: any) {
-  const { data: env, error } = EnvSchema.safeParse(data);
 
+// const { data: env, error } = EnvSchema.safeParse(process.env);
+
+// Singleton for validated environment variables
+const env = (() => {
+  const { data, error } = EnvSchema.safeParse(process.env);
   if (error) {
-    const errorMessage = `❌ Invalid env - ${Object.entries(error.flatten().fieldErrors).map(([key, errors]) => `${key}: ${errors.join(",")}`).join(" | ")}`;
-    throw new Error(errorMessage);
+    console.error("Environment variable validation failed!");
+    console.error("Error details:");
+    console.error(
+      error.errors
+        .map((err) => `${err.path.join(".")}: ${err.message}`)
+        .join("\n"),
+    );
+    process.exit(1);
   }
+  return data!;
+})();
 
-  return env;
-}
+export default env!;

@@ -1,7 +1,8 @@
 import configureOpenAPI from "@/lib/configure-open-api";
 import createApp from "@/lib/create-app";
+import auth from "@/routes/auth/auth.index";
+import expenses from "@/routes/expenses/expenses.index";
 import index from "@/routes/index.route";
-import tasks from "@/routes/tasks/tasks.index";
 
 const app = createApp();
 
@@ -9,11 +10,12 @@ configureOpenAPI(app);
 
 const routes = [
   index,
-  tasks,
+  expenses,
+  auth,
 ] as const;
 
 routes.forEach((route) => {
-  app.route("/", route);
+  app.basePath("/api").route("/", route);
 });
 
 export type AppType = typeof routes[number];
