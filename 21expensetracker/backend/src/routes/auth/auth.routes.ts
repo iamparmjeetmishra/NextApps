@@ -1,9 +1,8 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import { jsonContent } from "stoker/openapi/helpers";
-import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
+import { createErrorSchema } from "stoker/openapi/schemas";
 
-import { notFoundSchema } from "@/lib/constants";
 import { getUser } from "@/lib/kinde";
 
 const UserSchema = z.object({
@@ -31,6 +30,7 @@ export const me = createRoute({
   path: "/auth/me",
   tags,
   method: "get",
+  middleware: getUser,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
       z.array(UserSchema),
@@ -41,7 +41,6 @@ export const me = createRoute({
       "Unauthorized user",
     ),
   },
-  handler: [getUser],
 });
 
 export const login = createRoute({

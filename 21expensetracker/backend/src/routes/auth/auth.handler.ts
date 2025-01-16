@@ -3,20 +3,21 @@ import * as HttpstatusPhrases from "stoker/http-status-phrases";
 
 import type { AppRouteHandler } from "@/lib/types";
 
-import createKinde, { getUser } from "@/lib/kinde";
+import createKinde from "@/lib/kinde";
 
 import type { CallbackRoute, LoginRoute, LogoutRoute, MeRoute, RegisterRoute } from "./auth.routes";
 
 export const me: AppRouteHandler<MeRoute> = async (c) => {
-  const User = c.get("user");
-  // console.log("userfromAuth", user);
+  // const User = c.get("user");
+  const User = c.var.user;
+  // console.log("userfromAuth", User);
   return c.json({ User }, HttpstatusCodes.OK);
 };
 
 export const login: AppRouteHandler<LoginRoute> = async (c) => {
   const { kindeClient, sessionManager } = createKinde(c.env);
-  const registerUrl = await kindeClient.register(sessionManager(c));
-  return c.redirect(registerUrl.toString());
+  const loginUrl = await kindeClient.login(sessionManager(c));
+  return c.redirect(loginUrl.toString());
 };
 
 export const register: AppRouteHandler<RegisterRoute> = async (c) => {

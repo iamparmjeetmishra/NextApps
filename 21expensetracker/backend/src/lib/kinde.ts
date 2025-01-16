@@ -60,9 +60,9 @@ export const getUser = createMiddleware<AppBindings>(async (c, next) => {
     if (!isAuthenticated) {
       return c.json({ error: HttpstatusPhrases.UNAUTHORIZED }, HttpstatusCodes.UNAUTHORIZED);
     }
-    const user = await kindeClient.getUser(manager);
+    const user = await kindeClient.getUserProfile(manager);
 
-    console.log("user", user);
+    // console.log("user", user);
     c.set("user", user);
     await next();
   }

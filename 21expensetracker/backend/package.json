@@ -1,5 +1,5 @@
 {
-  "name": "honobackend",
+  "name": "honobackend-expensetracker",
   "type": "module",
   "version": "1.0.0",
   "scripts": {
