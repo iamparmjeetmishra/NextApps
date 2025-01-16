@@ -3,21 +3,14 @@ import * as HttpstatusPhrases from "stoker/http-status-phrases";
 
 import type { AppRouteHandler } from "@/lib/types";
 
-import createKinde from "@/lib/kinde";
+import createKinde, { getUser } from "@/lib/kinde";
 
 import type { CallbackRoute, LoginRoute, LogoutRoute, MeRoute, RegisterRoute } from "./auth.routes";
 
 export const me: AppRouteHandler<MeRoute> = async (c) => {
-  const { kindeClient, sessionManager } = createKinde(c.env);
-  const manager = sessionManager(c);
-  const isAuthenticated = await kindeClient.isAuthenticated(manager);
-
-  if (!isAuthenticated) {
-    return c.json({ error: HttpstatusPhrases.UNAUTHORIZED }, HttpstatusCodes.UNAUTHORIZED);
-  }
-
-  const user = await kindeClient.getUser(manager);
-  return c.json({ user }, HttpstatusCodes.OK);
+  const User = c.get("user");
+  // console.log("userfromAuth", user);
+  return c.json({ User }, HttpstatusCodes.OK);
 };
 
 export const login: AppRouteHandler<LoginRoute> = async (c) => {

@@ -9,7 +9,7 @@ export default function configureOpenAPI(app: AppOpenAPI) {
     openapi: "3.0.0",
     info: {
       version: packageJSON.version,
-      title: "Tasks API",
+      title: "Expenses API",
     },
   });
 
@@ -19,7 +19,7 @@ export default function configureOpenAPI(app: AppOpenAPI) {
       theme: "deepSpace",
       layout: "classic",
       defaultHttpClient: {
-        targetKey: "javascript",
+        targetKey: "node",
         clientKey: "fetch",
       },
       spec: {

@@ -12,13 +12,13 @@ const router = createRouter()
     path: "/",
     responses: {
       [HttpStatusCodes.OK]: jsonContent(
-        createMessageObjectSchema("Expenses API"),
-        "Expenses API Index",
+        createMessageObjectSchema("Tasks API"),
+        "Tasks API Index",
       ),
     },
   }), (c) => {
     return c.json({
-      message: "Expenses API",
+      message: "Tasks API",
     }, HttpStatusCodes.OK);
   });
 

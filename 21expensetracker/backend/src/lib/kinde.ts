@@ -1,12 +1,17 @@
-import type { SessionManager } from "@kinde-oss/kinde-typescript-sdk";
+import type { SessionManager, UserType } from "@kinde-oss/kinde-typescript-sdk";
 import type { Context } from "hono";
 
 import { createKindeServerClient, GrantType } from "@kinde-oss/kinde-typescript-sdk";
 import { deleteCookie, getCookie, setCookie } from "hono/cookie";
+import { createMiddleware } from "hono/factory";
+import * as HttpstatusCodes from "stoker/http-status-codes";
+import * as HttpstatusPhrases from "stoker/http-status-phrases";
 
-import type { Environment } from "@/env";
+import type { Environment as Env } from "@/env";
 
-export default function createKinde(env: Environment) {
+import type { AppBindings } from "./types";
+
+export default function createKinde(env: Env) {
   const kindeClient = createKindeServerClient(GrantType.AUTHORIZATION_CODE, {
     authDomain: env.KINDE_ISSUER_URL,
     clientId: env.KINDE_CLIENT_ID,
@@ -45,3 +50,24 @@ export default function createKinde(env: Environment) {
 
   return { kindeClient, sessionManager };
 }
+
+export const getUser = createMiddleware<AppBindings>(async (c, next) => {
+  try {
+    const { kindeClient, sessionManager } = createKinde(c.env);
+    const manager = sessionManager(c);
+    const isAuthenticated = await kindeClient.isAuthenticated(manager);
+
+    if (!isAuthenticated) {
+      return c.json({ error: HttpstatusPhrases.UNAUTHORIZED }, HttpstatusCodes.UNAUTHORIZED);
+    }
+    const user = await kindeClient.getUser(manager);
+
+    console.log("user", user);
+    c.set("user", user);
+    await next();
+  }
+  catch (error) {
+    console.error(error);
+    return c.json({ error: HttpstatusPhrases.INTERNAL_SERVER_ERROR }, HttpstatusCodes.INTERNAL_SERVER_ERROR);
+  }
+});

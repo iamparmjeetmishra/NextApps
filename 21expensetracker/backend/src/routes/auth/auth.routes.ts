@@ -1,10 +1,10 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import * as HttpStatusCodes from "stoker/http-status-codes";
-import { jsonContent, jsonContentOneOf, jsonContentRequired } from "stoker/openapi/helpers";
+import { jsonContent } from "stoker/openapi/helpers";
 import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
 
-import { insertExpensesSchema, patchExpensesSchema, selectExpensesSchema, totalSpentSchema } from "@/db/schema";
 import { notFoundSchema } from "@/lib/constants";
+import { getUser } from "@/lib/kinde";
 
 const UserSchema = z.object({
   email: z.string().email(),
@@ -41,6 +41,7 @@ export const me = createRoute({
       "Unauthorized user",
     ),
   },
+  handler: [getUser],
 });
 
 export const login = createRoute({

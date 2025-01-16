@@ -15,7 +15,7 @@ const routes = [
 ] as const;
 
 routes.forEach((route) => {
-  app.basePath("/api").route("/", route);
+  app.route("/", route);
 });
 
 export type AppType = typeof routes[number];
