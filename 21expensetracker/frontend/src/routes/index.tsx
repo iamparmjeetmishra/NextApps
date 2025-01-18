@@ -4,7 +4,6 @@ export const Route = createFileRoute('/')({
   component: Index,
 })
 
-
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -15,10 +14,7 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 
-
 import { useTotalExpenses } from '@/lib/hooks';
-
-
 
 export default function Index() {
 	const {isPending, data, error} = useTotalExpenses()

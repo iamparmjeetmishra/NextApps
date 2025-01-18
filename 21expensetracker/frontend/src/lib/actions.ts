@@ -30,3 +30,13 @@ type createExpenseType = {
 export async function createExpense({value}: {value:createExpenseType}) {
   await api.expenses.$post({json: value})
 }
+
+export async function getCurrentUser() {
+  const res = await api.auth.me.$get()
+  if (!res.ok) {
+    throw new Error("Server Error")
+  }
+	const data = await res.json()
+	const user = data["User"]
+  return user
+}
