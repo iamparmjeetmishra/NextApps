@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Badge, Verified } from "lucide-react";
 
+import LoadingComponent from "@/components/loading";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { userQueryOptions } from "@/lib/actions";
@@ -16,9 +17,9 @@ function Profile() {
   // console.log("datafromProfile", data);
 
   if (isPending)
-    return "loading";
+    return <LoadingComponent />;
   if (error)
-    return "not logged in";
+    return <LoginComponent />;
 
   return (
     <div className="p-4 border container m-auto mt-4 rounded">
@@ -48,6 +49,15 @@ function Profile() {
       <Button asChild className="my-4">
         <a href="/api/auth/logout">Logout!</a>
       </Button>
+    </div>
+  );
+}
+
+function LoginComponent() {
+  return (
+    <div className="flex flex-col gap-2 items-center justify-center">
+      <p>Not Logged In..</p>
+      <Button><a href="/api/auth/login">Log in</a></Button>
     </div>
   );
 }

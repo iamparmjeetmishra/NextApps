@@ -24,8 +24,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0
       '@scalar/hono-api-reference':
-        specifier: ^0.5.165
-        version: 0.5.165(hono@4.6.16)
+        specifier: ^0.5.169
+        version: 0.5.169(hono@4.6.16)
       dotenv:
         specifier: ^16.4.7
         version: 16.4.7
@@ -1229,18 +1229,18 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@scalar/hono-api-reference@0.5.165':
-    resolution: {integrity: sha512-UOdH9vKQxNC5wi3fQufq44g93x3oE7YoeI1bdLncbrK3Nm+XtLe4Wc0kSpz1n6gsjvqSJij/ioXmkC8OJpM5hA==}
+  '@scalar/hono-api-reference@0.5.169':
+    resolution: {integrity: sha512-K6mGd1mxKXh5/jqxo0yHIOFi4N5jjQj8PL2TAJMhcUZ39qwSZ7/V7SGMBBpGtWNsGofac0bZ7q/7yoTsY3/RYg==}
     engines: {node: '>=18'}
     peerDependencies:
       hono: ^4.0.0
 
-  '@scalar/openapi-types@0.1.5':
-    resolution: {integrity: sha512-6geH9ehvQ/sG/xUyy3e0lyOw3BaY5s6nn22wHjEJhcobdmWyFER0O6m7AU0ZN4QTjle/gYvFJOjj552l/rsNSw==}
+  '@scalar/openapi-types@0.1.6':
+    resolution: {integrity: sha512-V+KnESyVJqorJzEN0QFlu3tAImCHjnvPov6QcQvjfY7s0+CjrI3rRO3oVIRlXURTQrQGrnhxvK0SkXGAZ+dxvw==}
     engines: {node: '>=18'}
 
-  '@scalar/types@0.0.25':
-    resolution: {integrity: sha512-sGnOFnfiSn4o23rklU/jrg81hO+630bsFIdHg8MZ/w2Nc6IoUwARA2hbe4d4Fg+D0KBu40Tan/L+WAYDXkTJQg==}
+  '@scalar/types@0.0.28':
+    resolution: {integrity: sha512-NRGWtxWE/YfpAiNKh/XCV5o9CaYlg8etwelux1q7VRAbZqbpti5c14a5/t2mCiFSrfoyh4ghAHuYC9n3uwnuXQ==}
     engines: {node: '>=18'}
 
   '@stylistic/eslint-plugin@2.13.0':
@@ -3897,16 +3897,16 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.30.1':
     optional: true
 
-  '@scalar/hono-api-reference@0.5.165(hono@4.6.16)':
+  '@scalar/hono-api-reference@0.5.169(hono@4.6.16)':
     dependencies:
-      '@scalar/types': 0.0.25
+      '@scalar/types': 0.0.28
       hono: 4.6.16
 
-  '@scalar/openapi-types@0.1.5': {}
+  '@scalar/openapi-types@0.1.6': {}
 
-  '@scalar/types@0.0.25':
+  '@scalar/types@0.0.28':
     dependencies:
-      '@scalar/openapi-types': 0.1.5
+      '@scalar/openapi-types': 0.1.6
       '@unhead/schema': 1.11.18
 
   '@stylistic/eslint-plugin@2.13.0(eslint@9.18.0)(typescript@5.7.3)':

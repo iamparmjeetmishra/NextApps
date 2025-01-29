@@ -5,6 +5,7 @@ import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
 
 import { insertExpensesSchema, patchExpensesSchema, selectExpensesSchema, totalSpentSchema } from "@/db/schema";
 import { notFoundSchema } from "@/lib/constants";
+import { getUser } from "@/lib/kinde";
 
 const tags = ["Expenses"];
 
@@ -12,6 +13,7 @@ export const list = createRoute({
   path: "/expenses",
   tags,
   method: "get",
+  middleware: getUser,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
       z.array(selectExpensesSchema),
@@ -28,6 +30,7 @@ export const totalSpent = createRoute({
   path: "/expenses/total",
   tags,
   method: "get",
+  middleware: getUser,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
       z.array(totalSpentSchema),
@@ -47,6 +50,7 @@ export const create = createRoute({
   path: "/expenses",
   tags,
   method: "post",
+  middleware: getUser,
   request: {
     body: jsonContentRequired(insertExpensesSchema, "The expenses to create"),
   },
@@ -66,6 +70,7 @@ export const getOne = createRoute({
   path: "/expenses/{id}",
   tags,
   method: "get",
+  middleware: getUser,
   request: {
     params: IdParamsSchema,
   },
@@ -89,6 +94,7 @@ export const patch = createRoute({
   path: "/expenses/{id}",
   tags,
   method: "patch",
+  middleware: getUser,
   request: {
     params: IdParamsSchema,
     body: jsonContentRequired(
@@ -119,6 +125,7 @@ export const remove = createRoute({
   request: {
     params: IdParamsSchema,
   },
+  middleware: getUser,
   method: "delete",
   responses: {
     [HttpStatusCodes.NO_CONTENT]: {

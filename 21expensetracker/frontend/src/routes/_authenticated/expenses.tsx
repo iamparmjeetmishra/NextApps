@@ -1,9 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_authenticated/expenses')({
-  component: Expenses,
-})
-
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -13,16 +10,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { Skeleton } from '@/components/ui/skeleton'
-import { useAllExpenses, useTotalExpenses } from '@/lib/hooks'
+} from "@/components/ui/table";
+import { useAllExpenses, useTotalExpenses } from "@/lib/hooks";
+
+export const Route = createFileRoute("/_authenticated/expenses")({
+  component: Expenses,
+});
 
 function Expenses() {
-  const { data, error, isPending } = useAllExpenses()
+  const { data, error, isPending } = useAllExpenses();
 
-  const { data: fetchedTotalSpent } = useTotalExpenses()
+  const { data: fetchedTotalSpent } = useTotalExpenses();
 
-  if (error) return 'An error has occurred: ' + error.message
+  if (error)
+    return `An error has occurred: ${error.message}`;
 
   return (
     <div className="max-w-2xl mx-auto mt-6">
@@ -37,7 +38,7 @@ function Expenses() {
         </TableHeader>
         <TableBody>
           {isPending
-            ? Array(3)
+            ? Array.from({ length: 3 })
                 .fill(0)
                 .map((_, i) => (
                   <TableRow key={i}>
@@ -53,12 +54,12 @@ function Expenses() {
                   </TableRow>
                 ))
             : data?.map((item: typeof data) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.id}</TableCell>
-                  <TableCell>{item.title}</TableCell>
-                  <TableCell>{item.amount}</TableCell>
-                </TableRow>
-              ))}
+              <TableRow key={item.id}>
+                <TableCell className="font-medium">{item.id}</TableCell>
+                <TableCell>{item.title}</TableCell>
+                <TableCell>{item.amount}</TableCell>
+              </TableRow>
+            ))}
         </TableBody>
         <TableFooter>
           <TableRow>
@@ -69,5 +70,5 @@ function Expenses() {
         </TableFooter>
       </Table>
     </div>
-  )
+  );
 }
