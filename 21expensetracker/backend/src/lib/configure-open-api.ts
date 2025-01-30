@@ -23,7 +23,7 @@ export default function configureOpenAPI(app: AppOpenAPI) {
         clientKey: "fetch",
       },
       spec: {
-        url: "/doc",
+        url: "/api/doc",
       },
     }),
   );
