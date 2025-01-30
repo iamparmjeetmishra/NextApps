@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, numeric, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const expenses = sqliteTable(
@@ -6,15 +6,21 @@ export const expenses = sqliteTable(
   {
     id: integer("id", { mode: "number" })
       .primaryKey({ autoIncrement: true }),
+    userId: text("user_id").notNull(),
     title: text("title")
       .notNull(),
-    amount: integer("amount")
+    amount: integer("amount", { mode: "number" })
       .notNull(),
     createdAt: integer("created_at", { mode: "timestamp" })
       .$defaultFn(() => new Date()),
     updatedAt: integer("updated_at", { mode: "timestamp" })
       .$defaultFn(() => new Date())
       .$onUpdate(() => new Date()),
+  },
+  (expenses) => {
+    return {
+      userIdIndex: index("name_idx").on(expenses.userId),
+    };
   },
 );
 
