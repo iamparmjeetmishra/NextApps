@@ -5,14 +5,19 @@ import * as HttpStatusPhrases from "stoker/http-status-phrases";
 import type { AppRouteHandler } from "@/lib/types";
 
 import { createDb } from "@/db";
-import { expenses } from "@/db/schema";
+import { expenses as expenseTable } from "@/db/schema";
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from "@/lib/constants";
 
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute, TotalSpentRoute } from "./expenses.routes";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
   const { db } = createDb(c.env);
-  const expenses = await db.query.expenses.findMany();
+  const user = c.var.user;
+  // const expenses = await db.query.expenses.findMany();
+  const expenses = await db
+    .select()
+    .from(expenseTable)
+    .where(eq(expenseTable.userId, user.id));
   // console.log("Expenses", expenses);
   return c.json(expenses);
 };
@@ -21,7 +26,7 @@ export const totalSpent: AppRouteHandler<TotalSpentRoute> = async (c) => {
   const { db } = await createDb(c.env);
 
   // Calculate total expenses directly in the database
-  const result = await db.select({ value: sum(expenses.amount) }).from(expenses);
+  const result = await db.select({ value: sum(expenseTable.amount) }).from(expenseTable);
   // console.log("Result", result);
 
   return c.json(result || 0, HttpStatusCodes.OK); // Ensure a fallback of 0 if no expenses exist
@@ -30,7 +35,7 @@ export const totalSpent: AppRouteHandler<TotalSpentRoute> = async (c) => {
 export const create: AppRouteHandler<CreateRoute> = async (c) => {
   const { db } = createDb(c.env);
   const expense = c.req.valid("json");
-  const [inserted] = await db.insert(expenses).values(expense).returning();
+  const [inserted] = await db.insert(expenseTable).values(expense).returning();
   return c.json(inserted, HttpStatusCodes.OK);
 };
 
@@ -79,9 +84,9 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
     );
   }
 
-  const [expense] = await db.update(expenses)
+  const [expense] = await db.update(expenseTable)
     .set(updates)
-    .where(eq(expenses.id, id))
+    .where(eq(expenseTable.id, id))
     .returning();
 
   if (!expense) {
@@ -99,8 +104,8 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
 export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
   const { db } = createDb(c.env);
   const { id } = c.req.valid("param");
-  const result = await db.delete(expenses)
-    .where(eq(expenses.id, id));
+  const result = await db.delete(expenseTable)
+    .where(eq(expenseTable.id, id));
 
   if (result.rowsAffected === 0) {
     return c.json(
