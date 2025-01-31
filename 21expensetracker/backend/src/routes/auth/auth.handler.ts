@@ -9,9 +9,9 @@ import type { CallbackRoute, LoginRoute, LogoutRoute, MeRoute, RegisterRoute } f
 
 export const me: AppRouteHandler<MeRoute> = async (c) => {
   // const User = c.get("user");
-  const User = c.var.user;
+  const user = c.var.user;
   // console.log("userfromAuth", User);
-  return c.json({ User }, HttpstatusCodes.OK);
+  return c.json({ user }, HttpstatusCodes.OK);
 };
 
 export const login: AppRouteHandler<LoginRoute> = async (c) => {
