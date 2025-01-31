@@ -1,7 +1,6 @@
-import type { z } from "zod";
-
 import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export const expenses = sqliteTable(
   "expenses",
@@ -42,7 +41,8 @@ export const totalSpentSchema = createSelectSchema(expenses).required(
 export const insertExpensesSchema = createInsertSchema(
   expenses,
   {
-    title: schema => schema.title.min(1).max(500),
+    title: z.string().min(2, { message: "items must be 2 characters long or more" }).max(200, { message: "items cannot be this much big" }),
+    amount: z.number().min(1, { message: "item must be above zero." }),
   },
 ).required({
   amount: true,
@@ -59,3 +59,6 @@ export const createExpenseSchema = insertExpensesSchema.omit({
 });
 
 export type CreateExpenseType = z.infer<typeof createExpenseSchema>;
+
+// Insert - can be used to validate API Requests
+// Select - can be used to validate API Responses

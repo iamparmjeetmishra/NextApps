@@ -1,13 +1,12 @@
 import { useForm } from "@tanstack/react-form";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { zodValidator } from "@tanstack/zod-form-adapter";
+import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-// import type { FieldApi } from "@tanstack/react-form";
-// import { api } from "@/lib/api";
 import { createExpense } from "@/lib/actions";
+import { createExpenseSchema } from "@/lib/types";
 
 export const Route = createFileRoute("/_authenticated/create-expense")({
   component: CreateExpenseComponent,
@@ -16,6 +15,9 @@ export const Route = createFileRoute("/_authenticated/create-expense")({
 function CreateExpenseComponent() {
   const navigate = useNavigate();
   const form = useForm({
+    validators: {
+      onChange: createExpenseSchema,
+    },
     defaultValues: {
       userId: "",
       title: "",
@@ -23,9 +25,7 @@ function CreateExpenseComponent() {
     },
     onSubmit: async ({ value }) => {
       // await new Promise(r => setTimeout(r, 3000))
-      // await api.expenses.$post({json: value})
       const res = await createExpense({ value });
-      console.log(res);
 
       if (!res.ok) {
         throw new Error("server error");
@@ -52,6 +52,9 @@ function CreateExpenseComponent() {
       >
         <form.Field
           name="title"
+          validators={{
+            onChange: createExpenseSchema.shape.title,
+          }}
           children={field => (
             <>
               <Label htmlFor="title">Title</Label>
@@ -70,8 +73,12 @@ function CreateExpenseComponent() {
             </>
           )}
         />
+        <br />
         <form.Field
           name="amount"
+          validators={{
+            onChange: createExpenseSchema.shape.amount,
+          }}
           children={field => (
             <>
               <Label htmlFor="amount">Amount</Label>
@@ -93,6 +100,7 @@ function CreateExpenseComponent() {
             </>
           )}
         />
+        <br />
         <form.Subscribe
           selector={state => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
