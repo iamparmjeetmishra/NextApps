@@ -1,38 +1,45 @@
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useForm } from "@tanstack/react-form";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { zodValidator } from "@tanstack/zod-form-adapter";
 
-import { useForm } from '@tanstack/react-form'
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 // import type { FieldApi } from "@tanstack/react-form";
 // import { api } from "@/lib/api";
-import { createExpense } from '@/lib/actions'
+import { createExpense } from "@/lib/actions";
 
-export const Route = createFileRoute('/_authenticated/create-expense')({
+export const Route = createFileRoute("/_authenticated/create-expense")({
   component: CreateExpenseComponent,
-})
+});
 
 function CreateExpenseComponent() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const form = useForm({
     defaultValues: {
-      title: '',
+      userId: "",
+      title: "",
       amount: 0,
     },
     onSubmit: async ({ value }) => {
       // await new Promise(r => setTimeout(r, 3000))
       // await api.expenses.$post({json: value})
-      await createExpense({ value })
-      console.log(value)
-      navigate({ to: '/expenses' })
+      const res = await createExpense({ value });
+      console.log(res);
+
+      if (!res.ok) {
+        throw new Error("server error");
+      }
+
+      navigate({ to: "/expenses" });
     },
-  })
+  });
 
   function handleFormSubmit(e: React.FormEvent<HTMLFormElement>) {
-    console.log(e)
-    e.preventDefault()
-    e.stopPropagation()
-    form.handleSubmit()
+    // console.log(e);
+    e.preventDefault();
+    e.stopPropagation();
+    form.handleSubmit();
   }
 
   return (
@@ -45,25 +52,27 @@ function CreateExpenseComponent() {
       >
         <form.Field
           name="title"
-          children={(field) => (
+          children={field => (
             <>
               <Label htmlFor="title">Title</Label>
               <Input
                 name={field.name}
                 value={field.state.value}
                 onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(e.target.value)}
+                onChange={e => field.handleChange(e.target.value)}
                 placeholder="title"
               />
-              {field.state.meta.isTouched ? (
-                <em>{field.state.meta.errors}</em>
-              ) : null}
+              {field.state.meta.isTouched
+                ? (
+                    <em>{field.state.meta.errors}</em>
+                  )
+                : null}
             </>
           )}
         />
         <form.Field
           name="amount"
-          children={(field) => (
+          children={field => (
             <>
               <Label htmlFor="amount">Amount</Label>
               <Input
@@ -74,23 +83,25 @@ function CreateExpenseComponent() {
                 name={field.name}
                 value={field.state.value}
                 onBlur={field.handleBlur}
-                onChange={(e) => field.handleChange(Number(e.target.value))}
+                onChange={e => field.handleChange(Number(e.target.value))}
               />
-              {field.state.meta.isTouched ? (
-                <em>{field.state.meta.errors}</em>
-              ) : null}
+              {field.state.meta.isTouched
+                ? (
+                    <em>{field.state.meta.errors}</em>
+                  )
+                : null}
             </>
           )}
         />
         <form.Subscribe
-          selector={(state) => [state.canSubmit, state.isSubmitting]}
+          selector={state => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
             <Button type="submit" disabled={!canSubmit}>
-              {isSubmitting ? 'Submitting...' : 'Submit'}
+              {isSubmitting ? "Submitting..." : "Submit"}
             </Button>
           )}
         />
       </form>
     </div>
-  )
+  );
 }
