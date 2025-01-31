@@ -1,4 +1,6 @@
-import { index, integer, numeric, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import type { z } from "zod";
+
+import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 export const expenses = sqliteTable(
@@ -51,3 +53,9 @@ export const insertExpensesSchema = createInsertSchema(
 });
 
 export const patchExpensesSchema = insertExpensesSchema.partial();
+
+export const createExpenseSchema = insertExpensesSchema.omit({
+  userId: true,
+});
+
+export type CreateExpenseType = z.infer<typeof createExpenseSchema>;
