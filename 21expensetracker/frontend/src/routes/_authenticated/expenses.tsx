@@ -53,13 +53,13 @@ function Expenses() {
                     </TableCell>
                   </TableRow>
                 ))
-            : data?.map((item: typeof data) => (
-              <TableRow key={item.id}>
-                <TableCell className="font-medium">{item.id}</TableCell>
-                <TableCell>{item.title}</TableCell>
-                <TableCell>{item.amount}</TableCell>
-              </TableRow>
-            ))}
+            : data.map((item: typeof data) => (
+                <TableRow key={item.id}>
+                  <TableCell className="font-medium">{item.id}</TableCell>
+                  <TableCell>{item.title}</TableCell>
+                  <TableCell>{item.amount}</TableCell>
+                </TableRow>
+              ))}
         </TableBody>
         <TableFooter>
           <TableRow>
