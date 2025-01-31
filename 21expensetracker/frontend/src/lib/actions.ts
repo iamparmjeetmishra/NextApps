@@ -9,7 +9,7 @@ export async function getTotalSpent() {
   }
   // console.log('Res', res)
   const data = await res.json();
-  const total = await data[0].value;
+  const total = await data.value;
   return total;
 }
 
@@ -19,7 +19,8 @@ export async function getAllExpenses() {
     throw new Error("Server error");
   }
   const data = await res.json();
-  return data;
+  // console.log(data);
+  return data.expenses;
 }
 
 interface createExpenseType {
@@ -28,7 +29,12 @@ interface createExpenseType {
 }
 
 export async function createExpense({ value }: { value: createExpenseType }) {
-  await api.expenses.$post({ json: value });
+  const res = await api.expenses.$post({ json: value });
+
+  if (!res.ok) {
+    throw new Error("servor error");
+  }
+  return res;
 }
 
 export async function getCurrentUser() {
@@ -37,7 +43,7 @@ export async function getCurrentUser() {
     throw new Error("Server Error");
   }
   const data = await res.json();
-  const user = data.User;
+  const user = data.user;
   return user;
 }
 
