@@ -1,11 +1,11 @@
-import { eq, sum } from "drizzle-orm";
+import { and, desc, eq, sum } from "drizzle-orm";
 import * as HttpStatusCodes from "stoker/http-status-codes";
 import * as HttpStatusPhrases from "stoker/http-status-phrases";
 
 import type { AppRouteHandler } from "@/lib/types";
 
 import { createDb } from "@/db";
-import { expenses as expenseTable } from "@/db/schema";
+import { expenses as expenseTable, insertExpensesSchema } from "@/db/schema";
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from "@/lib/constants";
 
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute, TotalSpentRoute } from "./expenses.routes";
@@ -17,36 +17,61 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
   const expenses = await db
     .select()
     .from(expenseTable)
-    .where(eq(expenseTable.userId, user.id));
+    .where(eq(expenseTable.userId, user.id))
+    .orderBy(desc(expenseTable.createdAt))
+    .limit(100);
   // console.log("Expenses", expenses);
-  return c.json(expenses);
-};
-
-export const totalSpent: AppRouteHandler<TotalSpentRoute> = async (c) => {
-  const { db } = await createDb(c.env);
-
-  // Calculate total expenses directly in the database
-  const result = await db.select({ value: sum(expenseTable.amount) }).from(expenseTable);
-  // console.log("Result", result);
-
-  return c.json(result || 0, HttpStatusCodes.OK); // Ensure a fallback of 0 if no expenses exist
+  return c.json({ expenses }, HttpStatusCodes.OK);
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (c) => {
   const { db } = createDb(c.env);
+  const user = await c.var.user;
+  // console.log("user", user);
+
   const expense = c.req.valid("json");
-  const [inserted] = await db.insert(expenseTable).values(expense).returning();
-  return c.json(inserted, HttpStatusCodes.OK);
+  // console.log("expense", expense);
+  const validatedExpense = insertExpensesSchema.parse({
+    ...expense,
+    userId: user.id,
+  });
+  // console.log("ValidatedExpense", validatedExpense);
+
+  const expenses = await db
+    .insert(expenseTable)
+    .values(validatedExpense)
+    .returning();
+
+  return c.json(expenses, HttpStatusCodes.OK);
+};
+
+export const totalSpent: AppRouteHandler<TotalSpentRoute> = async (c) => {
+  const { db } = await createDb(c.env);
+  const user = c.var.user;
+  // Calculate total expenses directly in the database
+  // const result = await db.select({ value: sum(expenseTable.amount) }).from(expenseTable);
+  const result = await db
+    .select({ value: sum(expenseTable.amount) })
+    .from(expenseTable)
+    .where(eq(expenseTable.userId, user.id))
+    .limit(1)
+    .then(res => res[0]);
+  // console.log("Result", result);
+
+  return c.json(result || 0, HttpStatusCodes.OK);
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
   const { db } = createDb(c.env);
-  const { id } = c.req.valid("param");
-  const expenses = await db.query.expenses.findFirst({
-    where(fields, operators) {
-      return operators.eq(fields.id, id);
-    },
-  });
+  const id = Number.parseInt(c.req.param("id"));
+  const user = c.var.user;
+
+  const expenses = await db
+    .select()
+    .from(expenseTable)
+    .where(and(eq(expenseTable.userId, user.id), eq(expenseTable.id, id)))
+    .orderBy(desc(expenseTable.createdAt))
+    .then(res => res[0]);
 
   if (!expenses) {
     return c.json(
@@ -62,7 +87,8 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
 
 export const patch: AppRouteHandler<PatchRoute> = async (c) => {
   const { db } = createDb(c.env);
-  const { id } = c.req.valid("param");
+  const id = Number.parseInt(c.req.param("id"));
+  const user = c.var.user;
   const updates = c.req.valid("json");
 
   if (Object.keys(updates).length === 0) {
@@ -84,10 +110,12 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
     );
   }
 
-  const [expense] = await db.update(expenseTable)
+  const expense = await db
+    .update(expenseTable)
     .set(updates)
-    .where(eq(expenseTable.id, id))
-    .returning();
+    .where(and(eq(expenseTable.userId, user.id), eq(expenseTable.id, id)))
+    .returning()
+    .then(res => res[0]);
 
   if (!expense) {
     return c.json(
@@ -103,11 +131,16 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
 
 export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
   const { db } = createDb(c.env);
-  const { id } = c.req.valid("param");
-  const result = await db.delete(expenseTable)
-    .where(eq(expenseTable.id, id));
+  const id = Number.parseInt(c.req.param("id"));
+  const user = c.var.user;
 
-  if (result.rowsAffected === 0) {
+  const result = await db
+    .delete(expenseTable)
+    .where(and(eq(expenseTable.userId, user.id), eq(expenseTable.id, id)))
+    .returning()
+    .then(res => res[0]);
+
+  if (!result) {
     return c.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
@@ -116,5 +149,5 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
     );
   }
 
-  return c.body(null, HttpStatusCodes.NO_CONTENT);
+  return c.json(result, HttpStatusCodes.OK);
 };
