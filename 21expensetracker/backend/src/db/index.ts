@@ -1,19 +1,16 @@
-import { createClient } from "@libsql/client/web";
-import { drizzle } from "drizzle-orm/libsql";
+import type { NeonDatabase } from "drizzle-orm/neon-serverless";
+
+import { Pool } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-serverless";
 
 import type { Environment } from "@/env";
 
-import * as schema from "./schema";
+import * as schema from "@/db/schema";
 
 export function createDb(env: Environment) {
-  const client = createClient({
-    url: env.DATABASE_URL,
-    authToken: env.DATABASE_AUTH_TOKEN,
-  });
+  const pool = new Pool({ connectionString: env.DATABASE_URL });
 
-  const db = drizzle(client, {
-    schema,
-  });
+  const db: NeonDatabase<typeof schema> = drizzle(pool, { schema });
 
-  return { db, client };
+  return db;
 }
