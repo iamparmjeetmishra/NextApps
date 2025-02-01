@@ -34,6 +34,7 @@ function Expenses() {
             <TableHead className="w-[100px]">Id</TableHead>
             <TableHead>Title</TableHead>
             <TableHead>Amount</TableHead>
+            <TableHead>Date</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -51,6 +52,9 @@ function Expenses() {
                     <TableCell>
                       <Skeleton className="h-4" />
                     </TableCell>
+                    <TableCell>
+                      <Skeleton className="h-4" />
+                    </TableCell>
                   </TableRow>
                 ))
             : data.map((item: typeof data) => (
@@ -58,6 +62,7 @@ function Expenses() {
                   <TableCell className="font-medium">{item.id}</TableCell>
                   <TableCell>{item.title}</TableCell>
                   <TableCell>{item.amount}</TableCell>
+                  <TableCell>{item.date}</TableCell>
                 </TableRow>
               ))}
         </TableBody>
@@ -66,6 +71,7 @@ function Expenses() {
             <TableCell>Total</TableCell>
             <TableCell></TableCell>
             <TableCell>{fetchedTotalSpent}</TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableFooter>
       </Table>
