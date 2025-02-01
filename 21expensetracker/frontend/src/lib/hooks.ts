@@ -1,4 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import type { CreateExpenseType } from "@server/db/schema";
+
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { getAllExpenses, getCurrentUser, getTotalSpent } from "./actions";
 
@@ -29,6 +31,22 @@ export function useAllExpenses() {
     data,
   };
 }
+
+export const useToGetAllExpensesQueryOptions = queryOptions({
+  queryKey: ["get-all-expenses-query"],
+  queryFn: getAllExpenses,
+  staleTime: Infinity,
+});
+
+export const loadingCreateExpenseQueryOptions = queryOptions<{
+  expense?: CreateExpenseType;
+}>({
+  queryKey: ["loading-create-expense"],
+  queryFn: async () => {
+    return {};
+  },
+  staleTime: Infinity,
+});
 
 export function useGetCurrentUser() {
   const { isPending, error, data } = useQuery({
