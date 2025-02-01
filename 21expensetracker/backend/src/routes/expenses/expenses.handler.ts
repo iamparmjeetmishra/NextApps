@@ -11,7 +11,7 @@ import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from "@/lib/constants";
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute, TotalSpentRoute } from "./expenses.routes";
 
 export const list: AppRouteHandler<ListRoute> = async (c) => {
-  const { db } = createDb(c.env);
+  const db = createDb(c.env);
   const user = c.var.user;
   // const expenses = await db.query.expenses.findMany();
   const expenses = await db
@@ -25,7 +25,7 @@ export const list: AppRouteHandler<ListRoute> = async (c) => {
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (c) => {
-  const { db } = createDb(c.env);
+  const db = createDb(c.env);
   const user = await c.var.user;
   // console.log("user", user);
 
@@ -40,13 +40,14 @@ export const create: AppRouteHandler<CreateRoute> = async (c) => {
   const expenses = await db
     .insert(expenseTable)
     .values(validatedExpense)
-    .returning();
+    .returning()
+    .then(res => res[0]);
 
   return c.json(expenses, HttpStatusCodes.OK);
 };
 
 export const totalSpent: AppRouteHandler<TotalSpentRoute> = async (c) => {
-  const { db } = await createDb(c.env);
+  const db = await createDb(c.env);
   const user = c.var.user;
   // Calculate total expenses directly in the database
   // const result = await db.select({ value: sum(expenseTable.amount) }).from(expenseTable);
@@ -62,7 +63,7 @@ export const totalSpent: AppRouteHandler<TotalSpentRoute> = async (c) => {
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
-  const { db } = createDb(c.env);
+  const db = createDb(c.env);
   const id = Number.parseInt(c.req.param("id"));
   const user = c.var.user;
 
@@ -86,7 +87,7 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
 };
 
 export const patch: AppRouteHandler<PatchRoute> = async (c) => {
-  const { db } = createDb(c.env);
+  const db = createDb(c.env);
   const id = Number.parseInt(c.req.param("id"));
   const user = c.var.user;
   const updates = c.req.valid("json");
@@ -130,7 +131,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
 };
 
 export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
-  const { db } = createDb(c.env);
+  const db = createDb(c.env);
   const id = Number.parseInt(c.req.param("id"));
   const user = c.var.user;
 
