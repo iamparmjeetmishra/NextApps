@@ -1,18 +1,22 @@
 import { useForm } from "@tanstack/react-form";
+import { useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { z } from "zod";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createExpense } from "@/lib/actions";
-import { createExpenseSchema } from "@/lib/types";
+import { loadingCreateExpenseQueryOptions, useToGetAllExpensesQueryOptions } from "@/lib/hooks";
+import { createExpenseSchema } from "@server/db/schema";
 
 export const Route = createFileRoute("/_authenticated/create-expense")({
   component: CreateExpenseComponent,
 });
 
 function CreateExpenseComponent() {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const form = useForm({
     validators: {
@@ -22,16 +26,43 @@ function CreateExpenseComponent() {
       userId: "",
       title: "",
       amount: 0,
+      date: new Date().toISOString(),
     },
     onSubmit: async ({ value }) => {
       // await new Promise(r => setTimeout(r, 3000))
+      const existingExpenses = await queryClient.ensureQueryData(useToGetAllExpensesQueryOptions);
+      navigate({ to: "/expenses" });
+
       const res = await createExpense({ value });
 
       if (!res.ok) {
         throw new Error("server error");
       }
 
-      navigate({ to: "/expenses" });
+      queryClient.setQueryData(loadingCreateExpenseQueryOptions.queryKey, {
+        expense: value,
+      });
+
+      try {
+        const newExpense = await createExpense({ value });
+
+        queryClient.setQueryData(loadingCreateExpenseQueryOptions.queryKey, ({
+          ...existingExpenses,
+          expanses: [newExpense, ...existingExpenses.expenses],
+        }));
+
+        toast("Expense Created", {
+          description: `Success: ${newExpense.id}`,
+        });
+      }
+      catch (error) {
+        toast("Error", {
+          description: `Failed to create: ${error}`,
+        });
+      }
+      finally {
+        queryClient.setQueryData(loadingCreateExpenseQueryOptions.queryKey, {});
+      }
     },
   });
 
@@ -101,6 +132,27 @@ function CreateExpenseComponent() {
           )}
         />
         <br />
+        <form.Field
+          name="date"
+          validators={{
+            onChange: createExpenseSchema.shape.date,
+          }}
+          children={field => (
+            <>
+              <Calendar
+                mode="single"
+                selected={new Date(field.state.value)}
+                onSelect={date => field.handleChange((date ?? new Date()).toISOString())}
+                className="rounded-md border w-fit"
+              />
+              {field.state.meta.isTouched
+                ? (
+                    <em>{field.state.meta.errors}</em>
+                  )
+                : null}
+            </>
+          )}
+        />
         <form.Subscribe
           selector={state => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
