@@ -1,28 +1,25 @@
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { date, index, numeric, pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const expenses = sqliteTable(
+export const expenses = pgTable(
   "expenses",
   {
-    id: integer("id", { mode: "number" })
-      .primaryKey({ autoIncrement: true }),
+    id: serial("id").primaryKey(),
     userId: text("user_id").notNull(),
     title: text("title")
       .notNull(),
-    amount: integer("amount", { mode: "number" })
+    amount: numeric("amount", { precision: 12, scale: 2 })
       .notNull(),
-    createdAt: integer("created_at", { mode: "timestamp" })
-      .$defaultFn(() => new Date()),
-    updatedAt: integer("updated_at", { mode: "timestamp" })
+    date: date("date").notNull(),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at")
       .$defaultFn(() => new Date())
       .$onUpdate(() => new Date()),
   },
-  (expenses) => {
-    return {
-      userIdIndex: index("name_idx").on(expenses.userId),
-    };
-  },
+  expenses => [
+    index("name_idx").on(expenses.userId),
+  ],
 );
 
 export const selectExpensesSchema = createSelectSchema(expenses);
@@ -54,9 +51,7 @@ export const insertExpensesSchema = createInsertSchema(
 
 export const patchExpensesSchema = insertExpensesSchema.partial();
 
-export const createExpenseSchema = insertExpensesSchema.omit({
-  userId: true,
-});
+export const createExpenseSchema = insertExpensesSchema;
 
 export type CreateExpenseType = z.infer<typeof createExpenseSchema>;
 
