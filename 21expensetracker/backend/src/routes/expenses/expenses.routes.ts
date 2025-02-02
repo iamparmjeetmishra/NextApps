@@ -67,7 +67,7 @@ export const create = createRoute({
 });
 
 export const getOne = createRoute({
-  path: "/expenses/{id}",
+  path: "/expenses/:id",
   tags,
   method: "get",
   middleware: getUser,
@@ -91,7 +91,7 @@ export const getOne = createRoute({
 });
 
 export const patch = createRoute({
-  path: "/expenses/{id}",
+  path: "/expenses/:id",
   tags,
   method: "patch",
   middleware: getUser,
@@ -120,7 +120,7 @@ export const patch = createRoute({
 });
 
 export const remove = createRoute({
-  path: "/expenses/{id}",
+  path: "/expenses/:id{[0-9]+}",
   tags,
   request: {
     params: IdParamsSchema,

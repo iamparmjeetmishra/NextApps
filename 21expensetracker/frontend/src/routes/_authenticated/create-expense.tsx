@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { createExpense } from "@/lib/actions";
-import { loadingCreateExpenseQueryOptions, useToGetAllExpensesQueryOptions } from "@/lib/hooks";
+import { createExpense, getAllExpensesQueryOptions, loadingCreateExpenseQueryOptions } from "@/lib/actions";
 import { createExpenseSchema } from "@server/db/schema";
 
 export const Route = createFileRoute("/_authenticated/create-expense")({
@@ -30,14 +29,9 @@ function CreateExpenseComponent() {
     },
     onSubmit: async ({ value }) => {
       // await new Promise(r => setTimeout(r, 3000))
-      const existingExpenses = await queryClient.ensureQueryData(useToGetAllExpensesQueryOptions);
+      const existingExpenses = await queryClient.ensureQueryData(getAllExpensesQueryOptions);
+
       navigate({ to: "/expenses" });
-
-      const res = await createExpense({ value });
-
-      if (!res.ok) {
-        throw new Error("server error");
-      }
 
       queryClient.setQueryData(loadingCreateExpenseQueryOptions.queryKey, {
         expense: value,
@@ -46,10 +40,10 @@ function CreateExpenseComponent() {
       try {
         const newExpense = await createExpense({ value });
 
-        queryClient.setQueryData(loadingCreateExpenseQueryOptions.queryKey, ({
+        queryClient.setQueryData(loadingCreateExpenseQueryOptions.queryKey, {
           ...existingExpenses,
           expanses: [newExpense, ...existingExpenses.expenses],
-        }));
+        });
 
         toast("Expense Created", {
           description: `Success: ${newExpense.id}`,
@@ -70,7 +64,7 @@ function CreateExpenseComponent() {
     // console.log(e);
     e.preventDefault();
     e.stopPropagation();
-    form.handleSubmit();
+    void form.handleSubmit();
   }
 
   return (

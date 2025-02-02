@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,19 +8,21 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { useTotalExpenses } from '@/lib/hooks'
+} from "@/components/ui/card";
+import { useTotalExpenses } from "@/lib/actions";
 
-export const Route = createFileRoute('/_authenticated/')({
+export const Route = createFileRoute("/_authenticated/")({
   component: Index,
-})
+});
 
 export default function Index() {
-  const { isPending, data, error } = useTotalExpenses()
+  const { isPending, data, error } = useTotalExpenses();
 
-  if (isPending) return 'loading...'
+  if (isPending)
+    return "loading...";
 
-  if (error) return `An error has occurred: ${error.message}`
+  if (error)
+    return `An error has occurred: ${error.message}`;
 
   return (
     <div className="bg-black/70 min-h-screen text-white flex flex-col items-center p-4">
@@ -30,12 +32,12 @@ export default function Index() {
           <CardDescription>The Total Amount You've spent</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          {isPending ? '...' : data}
+          {isPending ? "..." : data}
         </CardContent>
         <CardFooter>
           <Button className="w-full">Refresh Total Expenses.</Button>
         </CardFooter>
       </Card>
     </div>
-  )
+  );
 }

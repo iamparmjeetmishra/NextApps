@@ -1,4 +1,7 @@
-import { queryOptions } from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
+
+import type { CreateExpenseType } from "@server/db/schema";
 
 import { api } from "./api";
 
@@ -13,6 +16,22 @@ export async function getTotalSpent() {
   return total;
 }
 
+export function useTotalExpenses() {
+  const { isPending, error, data } = useQuery({
+    queryKey: ["total-spent"],
+    queryFn: getTotalSpent,
+    staleTime: Infinity,
+  });
+
+  return {
+    isPending,
+    error,
+    data,
+  };
+}
+
+// For Getting Expenses
+
 export async function getAllExpenses() {
   const res = await api.expenses.$get();
   if (!res.ok) {
@@ -23,12 +42,15 @@ export async function getAllExpenses() {
   return data.expenses;
 }
 
-interface createExpenseType {
-  title: string;
-  amount: number;
-}
+export const getAllExpensesQueryOptions = queryOptions({
+  queryKey: ["get-all-expenses"],
+  queryFn: getAllExpenses,
+  staleTime: 1000 * 60 * 5,
+});
 
-export async function createExpense({ value }: { value: createExpenseType }) {
+// Creating Expense
+
+export async function createExpense({ value }: { value: CreateExpenseType }) {
   const res = await api.expenses.$post({ json: value });
 
   if (!res.ok) {
@@ -36,6 +58,34 @@ export async function createExpense({ value }: { value: createExpenseType }) {
   }
   return res;
 }
+
+export const loadingCreateExpenseQueryOptions = queryOptions<{
+  expense?: CreateExpenseType;
+}>({
+  queryKey: ["loading-create-expense"],
+  queryFn: async () => {
+    return {};
+  },
+  staleTime: Infinity,
+});
+
+// Deleting expense
+export async function deleteExpense({ id }: { id: number }) {
+  const res = await api.expenses[":id{[0-9]+}"].$delete({
+    param: { id: id.toString() },
+  });
+
+  if (!res.ok) {
+    throw new Error("Server Error");
+    toast("Failed to Delete", {
+      description: `Error: ${res}`,
+    });
+  }
+
+  toast("Item Deleted");
+}
+
+// For User
 
 export async function getCurrentUser() {
   const res = await api.auth.me.$get();
@@ -52,3 +102,17 @@ export const userQueryOptions = queryOptions({
   queryFn: getCurrentUser,
   staleTime: Infinity,
 });
+
+export function useGetCurrentUser() {
+  const { isPending, error, data } = useQuery({
+    queryKey: ["get-current-user"],
+    queryFn: getCurrentUser,
+    staleTime: Infinity,
+  });
+
+  return {
+    isPending,
+    error,
+    data,
+  };
+}
