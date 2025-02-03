@@ -1,10 +1,10 @@
 import { FileIcon, Trash2Icon, Folder as FolderIcon } from "lucide-react";
 import Link from "next/link";
 import { Button } from "~/components/ui/button";
-import type { files, folders } from "~/server/db/schema";
+import type { files_table, folders_table } from "~/server/db/schema";
 
 type FileRowPropsType = {
-  file: typeof files.$inferInsert;
+  file: typeof files_table.$inferInsert;
 };
 
 export function FileRow(props: FileRowPropsType) {
@@ -38,7 +38,7 @@ export function FileRow(props: FileRowPropsType) {
 }
 
 type folderRowType = {
-  folder: typeof folders.$inferInsert;
+  folder: typeof folders_table.$inferInsert;
 };
 
 export function FolderRow(props: folderRowType) {

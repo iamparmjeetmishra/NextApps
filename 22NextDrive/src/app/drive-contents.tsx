@@ -3,13 +3,13 @@
 import { ChevronRight, Upload } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { FileRow, FolderRow } from "./file-row";
-import type { files, folders } from "~/server/db/schema";
+import type { files_table, folders_table } from "~/server/db/schema";
 import Link from "next/link";
 
 type GoogleDriveClonePropType = {
-  files: (typeof files.$inferSelect)[];
-  folders: (typeof folders.$inferInsert)[];
-  parents: (typeof folders.$inferSelect)[];
+  files: (typeof files_table.$inferSelect)[];
+  folders: (typeof folders_table.$inferInsert)[];
+  parents: (typeof folders_table.$inferSelect)[];
 };
 
 export default function GoogleContents(props: GoogleDriveClonePropType) {
