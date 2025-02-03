@@ -20,5 +20,6 @@ Just finished up connecting DB, next steps:
 ## 2nd
 
 - [x] Change folders to link components, remove all client state
+- [ ] Error State while fetching in dynamic folder f/1
 - [ ] Clean up the DB and data fetching patterns
 - [ ] Real Homepage

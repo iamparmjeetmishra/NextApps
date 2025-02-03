@@ -1,6 +1,6 @@
 "use client";
 
-import { Upload } from "lucide-react";
+import { ChevronRight, Upload } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { FileRow, FolderRow } from "./file-row";
 import type { files, folders } from "~/server/db/schema";
@@ -9,11 +9,10 @@ import Link from "next/link";
 type GoogleDriveClonePropType = {
   files: (typeof files.$inferSelect)[];
   folders: (typeof folders.$inferInsert)[];
+  parents: (typeof folders.$inferSelect)[];
 };
 
 export default function GoogleContents(props: GoogleDriveClonePropType) {
-  const breadcrumbs: unknown[] = [];
-
   const handleUpload = () => {
     alert("Upload functionality would be implemented here");
   };
@@ -26,14 +25,14 @@ export default function GoogleContents(props: GoogleDriveClonePropType) {
             <Link href={`/f/1`} className="mr-2 text-gray-300 hover:text-white">
               My Drive
             </Link>
-            {/* {breadcrumbs.map((folder, index) => (
+            {props.parents.map((folder, index) => (
               <div key={folder.id} className="flex items-center">
                 <ChevronRight className="mx-2 text-gray-500" size={16} />
                 <Link href={""} className="text-gray-300 hover:text-white">
                   {folder.name}
                 </Link>
               </div>
-            ))} */}
+            ))}
           </div>
           <Button
             onClick={handleUpload}
