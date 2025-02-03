@@ -19,6 +19,6 @@ Just finished up connecting DB, next steps:
 
 ## 2nd
 
-- [ ] Change folders to link components, remove all client state
+- [x] Change folders to link components, remove all client state
 - [ ] Clean up the DB and data fetching patterns
 - [ ] Real Homepage
