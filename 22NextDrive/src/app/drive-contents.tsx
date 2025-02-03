@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { Upload, ChevronRight } from "lucide-react";
+import { Upload } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { FileRow, FolderRow } from "./file-row";
 import type { files, folders } from "~/server/db/schema";
