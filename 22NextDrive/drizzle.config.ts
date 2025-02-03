@@ -5,8 +5,8 @@ import { env } from "~/env";
 export default {
   schema: "./src/server/db/schema.ts",
   out: "./src/server/out",
-  dialect: "mysql",
-  tablesFilter: ["db_parm*"],
+  dialect: "singlestore",
+  // tablesFilter: ["db_parm*"],
   dbCredentials: {
     host: env.SINGLESTORE_HOST,
     port: parseInt(env.SINGLESTORE_PORT),
