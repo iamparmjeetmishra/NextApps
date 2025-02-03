@@ -1,15 +1,16 @@
 import { type Config } from "tailwindcss";
-import { fontFamily } from "tailwindcss/defaultTheme";
+// import { fontFamily } from "tailwindcss/defaultTheme";
+const defaultTheme = require("tailwindcss/defaultTheme")
 
 export default {
-	darkMode: ["class"],
+	darkMode: ["class", defaultTheme],
 	content: ["./src/**/*.tsx"],
 	theme: {
 		extend: {
 			fontFamily: {
 				sans: [
 					'var(--font-geist-sans)',
-					...fontFamily.sans
+					...defaultTheme.fontFamily.sans
 				]
 			},
 			borderRadius: {
