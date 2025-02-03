@@ -3,9 +3,10 @@
 ## TODO
 
 - [x] Set up DB and data model
-- [ ] Move folder open state to URL
+- [x] Move folder open state to URL
 - [ ] Add auth
 - [ ] Add file uploading
+- [ ] Add Analytics
 
 ## Note
 
@@ -15,3 +16,9 @@ Just finished up connecting DB, next steps:
 - [x] Manually insert examples
 - [x] Render them in the UI
 - [x] Push and Make sure it all works
+
+## 2nd
+
+- [ ] Change folders to link components, remove all client state
+- [ ] Clean up the DB and data fetching patterns
+- [ ] Real Homepage
