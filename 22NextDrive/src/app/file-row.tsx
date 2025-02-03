@@ -1,8 +1,12 @@
 import { FileIcon, Trash2Icon, Folder as FolderIcon } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { FileType, FolderType } from "~/lib/mock-data";
+import type { files, folders } from "~/server/db/schema";
 
-export function FileRow(props: { file: FileType }) {
+type FileRowPropsType = {
+  file: typeof files.$inferInsert;
+};
+
+export function FileRow(props: FileRowPropsType) {
   const { file } = props;
   return (
     <li
@@ -33,7 +37,7 @@ export function FileRow(props: { file: FileType }) {
 }
 
 type folderRowType = {
-  folder: FolderType;
+  folder: typeof folders.$inferInsert;
   handleFolderClick: () => void;
 };
 
