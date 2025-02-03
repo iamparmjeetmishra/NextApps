@@ -24,4 +24,4 @@ Just finished up connecting DB, next steps:
 - [ ] Error State while fetching in dynamic folder f/1
 - [ ] Clean up the DB and data fetching patterns
 - [ ] Real Homepage
-- [ ] Data access layer and consume layer must be different
+- [x] Data access layer and consume layer must be different
