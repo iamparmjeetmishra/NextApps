@@ -21,7 +21,7 @@ Just finished up connecting DB, next steps:
 
 - [x] Change folders to link components, remove all client state
 - [x] Breadcrumbs fixed with real data from db
-- [ ] Error State while fetching in dynamic folder f/1
-- [ ] Clean up the DB and data fetching patterns
-- [ ] Real Homepage
+- [x] Clean up the DB and data fetching patterns
 - [x] Data access layer and consume layer must be different
+- [ ] Real Homepage
+- [ ] Error State while fetching in dynamic folder f/1
