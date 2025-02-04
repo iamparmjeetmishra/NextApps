@@ -7,7 +7,7 @@ const defaultTheme = require("tailwindcss/defaultTheme")
 
 export default withUt({
 	darkMode: ["class", defaultTheme],
-	content: ["./src/**/*.tsx"],
+	content: ["./src/**/*.{ts,tsx,mdx}"],
 	theme: {
 		extend: {
 			fontFamily: {
