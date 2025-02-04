@@ -37,7 +37,14 @@ export default function GoogleContents(props: GoogleDriveClonePropType) {
               </div>
             ))}
           </div>
-          <div>
+          <div className="flex items-center gap-4">
+            <Button
+              onClick={handleUpload}
+              className="bg-blue-600 text-white hover:bg-blue-700"
+            >
+              <Upload className="mr-2" size={20} />
+              Upload
+            </Button>
             <SignedOut>
               <SignInButton />
             </SignedOut>
@@ -45,13 +52,6 @@ export default function GoogleContents(props: GoogleDriveClonePropType) {
               <UserButton />
             </SignedIn>
           </div>
-          <Button
-            onClick={handleUpload}
-            className="bg-blue-600 text-white hover:bg-blue-700"
-          >
-            <Upload className="mr-2" size={20} />
-            Upload
-          </Button>
         </div>
         <div className="rounded-lg bg-gray-800 shadow-xl">
           <div className="border-b border-gray-700 px-6 py-4">
