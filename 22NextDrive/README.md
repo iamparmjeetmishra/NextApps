@@ -24,7 +24,7 @@ Just finished up connecting DB, next steps:
 - [x] Clean up the DB and data fetching patterns
 - [x] Data access layer and consume layer must be different
 - [ ] Error State while fetching in dynamic folder f/1
-- [ ] Real Homepage
+- [ ] Real Homepage + onboarding
 
 ## 3rd
 
