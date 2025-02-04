@@ -5,10 +5,10 @@
 - [x] Set up DB and data model
 - [x] Move folder open state to URL
 - [x] Add auth
-- [ ] Add file uploading
+- [x] Add file uploading
 - [ ] Add Analytics
 
-## Note
+## 1st
 
 Just finished up connecting DB, next steps:
 
@@ -25,3 +25,9 @@ Just finished up connecting DB, next steps:
 - [x] Data access layer and consume layer must be different
 - [ ] Real Homepage
 - [ ] Error State while fetching in dynamic folder f/1
+
+## 3rd
+
+- [ ] Upload files to the right folder
+- [ ] Delete files button
+- [ ] Allow files that are not images to be uploaded
