@@ -71,7 +71,7 @@ export default function GoogleContents(props: GoogleDriveClonePropType) {
         </div>
         <UploadButton
           className="mt-4"
-          endpoint="imageUploader"
+          endpoint="driveUploader"
           onClientUploadComplete={() => {
             navigate.refresh();
           }}
