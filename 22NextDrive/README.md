@@ -28,7 +28,7 @@ Just finished up connecting DB, next steps:
 
 ## 3rd
 
-- [ ] Add "ownership" to files and folders
-- [ ] Upload files to the right folder
+- [x] Add "ownership" to files and folders
+- [x] Upload files to the right folder
 - [ ] Delete files button
 - [ ] Allow files that are not images to be uploaded
