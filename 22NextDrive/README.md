@@ -23,11 +23,12 @@ Just finished up connecting DB, next steps:
 - [x] Breadcrumbs fixed with real data from db
 - [x] Clean up the DB and data fetching patterns
 - [x] Data access layer and consume layer must be different
-- [ ] Real Homepage
 - [ ] Error State while fetching in dynamic folder f/1
+- [ ] Real Homepage
 
 ## 3rd
 
+- [ ] Add "ownership" to files and folders
 - [ ] Upload files to the right folder
 - [ ] Delete files button
 - [ ] Allow files that are not images to be uploaded
