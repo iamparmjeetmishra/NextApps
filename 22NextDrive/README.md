@@ -31,4 +31,5 @@ Just finished up connecting DB, next steps:
 - [x] Add "ownership" to files and folders
 - [x] Upload files to the right folder
 - [ ] Delete files button
-- [x] Allow files that are not images to be uploaded
+- [x] Allow files that are not images to be upload
+- [x] Orderby

@@ -1,5 +1,6 @@
-import { FileIcon, Trash2Icon, Folder as FolderIcon } from "lucide-react";
 import Link from "next/link";
+
+import { FileIcon, Folder as FolderIcon, Trash2Icon } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import type { files_table, folders_table } from "~/server/db/schema";
 

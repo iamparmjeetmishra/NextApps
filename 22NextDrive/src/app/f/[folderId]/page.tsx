@@ -1,6 +1,5 @@
+import DriveContents from "~/app/f/[folderId]/drive-contents";
 import { QUERIES } from "~/server/db/queries";
-
-import DriveContents from "../../drive-contents";
 
 type GoogleDriveTypeParams = {
   folderId: string;
