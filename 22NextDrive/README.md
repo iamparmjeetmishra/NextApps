@@ -23,8 +23,8 @@ Just finished up connecting DB, next steps:
 - [x] Breadcrumbs fixed with real data from db
 - [x] Clean up the DB and data fetching patterns
 - [x] Data access layer and consume layer must be different
-- [ ] Error State while fetching in dynamic folder f/1
-- [ ] Real Homepage + onboarding
+- [x] Error State while fetching in dynamic folder f/1
+- [x] Real Homepage + onboarding
 
 ## 3rd
 
@@ -37,3 +37,8 @@ Just finished up connecting DB, next steps:
 ## 4th
 
 - [ ] Folder Deletion
+- [ ] Folder creation - make a server action that takes a name and parentId, and creates a folder with that name and parentId(don't forget to set the ownerId).
+- [ ] Access Control - check if user is owner before showing the folder page
+- [ ] File View Challenge
+- [ ] Toasts
+- [ ] Gray out a row while it's deleting
