@@ -1,10 +1,13 @@
 "use client";
 
+import Link from "next/link";
+
+import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { ChevronRight, Upload } from "lucide-react";
 import { Button } from "~/components/ui/button";
-import { FileRow, FolderRow } from "./file-row";
 import type { files_table, folders_table } from "~/server/db/schema";
-import Link from "next/link";
+
+import { FileRow, FolderRow } from "./file-row";
 
 type GoogleDriveClonePropType = {
   files: (typeof files_table.$inferSelect)[];
@@ -33,6 +36,14 @@ export default function GoogleContents(props: GoogleDriveClonePropType) {
                 </Link>
               </div>
             ))}
+          </div>
+          <div>
+            <SignedOut>
+              <SignInButton />
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
           <Button
             onClick={handleUpload}
