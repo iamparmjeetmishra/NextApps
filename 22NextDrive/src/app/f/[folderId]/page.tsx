@@ -1,6 +1,6 @@
-import DriveContents from "../../drive-contents";
-
 import { QUERIES } from "~/server/db/queries";
+
+import DriveContents from "../../drive-contents";
 
 type GoogleDriveTypeParams = {
   folderId: string;
@@ -22,5 +22,12 @@ export default async function GoogleDriveClone(props: {
     QUERIES.getAllParentsForFolder(parsedFolderId),
   ]);
 
-  return <DriveContents files={files} folders={folders} parents={parents} />;
+  return (
+    <DriveContents
+      files={files}
+      folders={folders}
+      parents={parents}
+      currentFolderId={parsedFolderId}
+    />
+  );
 }

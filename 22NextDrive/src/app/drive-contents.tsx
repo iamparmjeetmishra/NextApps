@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import "@uploadthing/react/styles.css";
 import { ChevronRight, Upload } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { UploadButton } from "~/lib/uploadthing";
@@ -15,6 +16,7 @@ type GoogleDriveClonePropType = {
   files: (typeof files_table.$inferSelect)[];
   folders: (typeof folders_table.$inferInsert)[];
   parents: (typeof folders_table.$inferSelect)[];
+  currentFolderId: number;
 };
 
 export default function GoogleContents(props: GoogleDriveClonePropType) {
@@ -40,12 +42,6 @@ export default function GoogleContents(props: GoogleDriveClonePropType) {
           <div className="flex items-center gap-4">
             <Button className="bg-blue-600 text-white hover:bg-blue-700">
               <Upload className="mr-2" size={20} />
-              <UploadButton
-                endpoint="imageUploader"
-                onClientUploadComplete={() => {
-                  navigate.refresh();
-                }}
-              />
             </Button>
             <SignedOut>
               <SignInButton />
@@ -73,7 +69,16 @@ export default function GoogleContents(props: GoogleDriveClonePropType) {
             ))}
           </ul>
         </div>
-        <div></div>
+        <UploadButton
+          className="mt-4"
+          endpoint="imageUploader"
+          onClientUploadComplete={() => {
+            navigate.refresh();
+          }}
+          input={{
+            folderId: props.currentFolderId,
+          }}
+        />
       </div>
     </div>
   );
