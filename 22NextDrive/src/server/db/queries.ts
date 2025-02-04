@@ -1,11 +1,12 @@
 import "server-only";
 
+import { eq } from "drizzle-orm";
+import { createFileType } from "~/lib/types";
 import { db } from "~/server/db";
 import {
   files_table as filesSchema,
-  folders_table as foldersSchema,
+  folders_table as foldersSchema
 } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
 
 export const QUERIES = {
   getAllParentsForFolder: async function (folderId: number) {
@@ -41,3 +42,16 @@ export const QUERIES = {
       .where(eq(filesSchema.parent, folderId));
   },
 };
+
+
+export const MUTATIONS = {
+  createFile: async function (input: {
+    file: createFileType
+    userId: string
+  }) {
+    return await db.insert(filesSchema).values({
+      ...input.file,
+      parent: 1
+    })
+  }
+}

@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import { ChevronRight, Upload } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import { UploadButton } from "~/lib/uploadthing";
 import type { files_table, folders_table } from "~/server/db/schema";
 
 import { FileRow, FolderRow } from "./file-row";
@@ -16,9 +18,7 @@ type GoogleDriveClonePropType = {
 };
 
 export default function GoogleContents(props: GoogleDriveClonePropType) {
-  const handleUpload = () => {
-    alert("Upload functionality would be implemented here");
-  };
+  const navigate = useRouter();
 
   return (
     <div className="min-h-screen bg-gray-900 p-8 text-gray-100">
@@ -38,12 +38,14 @@ export default function GoogleContents(props: GoogleDriveClonePropType) {
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <Button
-              onClick={handleUpload}
-              className="bg-blue-600 text-white hover:bg-blue-700"
-            >
+            <Button className="bg-blue-600 text-white hover:bg-blue-700">
               <Upload className="mr-2" size={20} />
-              Upload
+              <UploadButton
+                endpoint="imageUploader"
+                onClientUploadComplete={() => {
+                  navigate.refresh();
+                }}
+              />
             </Button>
             <SignedOut>
               <SignInButton />
@@ -71,6 +73,7 @@ export default function GoogleContents(props: GoogleDriveClonePropType) {
             ))}
           </ul>
         </div>
+        <div></div>
       </div>
     </div>
   );
