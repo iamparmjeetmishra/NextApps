@@ -6,7 +6,7 @@
 - [x] Move folder open state to URL
 - [x] Add auth
 - [x] Add file uploading
-- [ ] Add Analytics
+- [-] Add Analytics - Posthog allows only 1
 
 ## 1st
 
