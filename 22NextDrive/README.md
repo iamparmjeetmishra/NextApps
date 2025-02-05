@@ -42,3 +42,6 @@ Just finished up connecting DB, next steps:
 - [ ] File View Challenge
 - [ ] Toasts
 - [ ] Gray out a row while it's deleting
+- [ ] Self auth
+- [ ] Payment
+- [ ] UI Improvement with fast fetch and caching
