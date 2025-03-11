@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 const NavLinks = [
 	{
@@ -32,7 +33,9 @@ export default function Navbar() {
 					))}
 				</div>
 			</div>
-			<div></div>
+			<div>
+				<Button variant="outline">Sign In</Button>
+			</div>
 		</nav>
 	);
 }
