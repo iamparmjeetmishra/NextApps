@@ -33,8 +33,9 @@ export default function Navbar() {
 					))}
 				</div>
 			</div>
-			<div>
-				<Button variant="outline">Sign In</Button>
+			<div className="flex gap-2 items-center">
+				<Button>Sign up</Button>
+				<Button variant="secondary">Sign In</Button>
 			</div>
 		</nav>
 	);
