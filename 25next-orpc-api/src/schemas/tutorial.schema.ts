@@ -1,5 +1,5 @@
+import { TutorialStatus } from "@/generated/prisma/enums";
 import z from "zod";
-import { TutorialStatus } from "../../prisma/generated/enums";
 
 export const TutorialStatusEnum = z.enum(
   Object.values(TutorialStatus) as [
